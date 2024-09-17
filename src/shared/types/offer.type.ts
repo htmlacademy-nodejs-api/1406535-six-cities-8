@@ -6,7 +6,7 @@ import { Location } from './location.type.js';
 
 export type Offer = {
   title: string;
-  descriptoin: string;
+  description: string;
   postDate: Date;
   city: City;
   preview: string;

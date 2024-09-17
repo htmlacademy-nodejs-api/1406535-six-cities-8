@@ -1,6 +1,6 @@
 import { City } from './types/index.js';
 
-export const CITIES: Array<City> = [
+export const CITIES: City[] = [
   {
     name: 'Paris',
     location: {
