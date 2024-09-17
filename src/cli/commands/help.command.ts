@@ -1,4 +1,5 @@
 import { Command } from './command.interface.js';
+import chalk from 'chalk';
 
 export class HelpCommand implements Command {
   public getName(): string {
@@ -9,12 +10,12 @@ export class HelpCommand implements Command {
     console.info(`
       Программа для подготовки данных для REST API сервера.
 
-      Пример: cli.js --<command> [--arguments]
+      Пример: ${chalk.blueBright('cli.js --<command> [--arguments]')}
 
       Команды:
-        --version:                   # выводит номер версии
-        --help:                      # печатает этот текст
-        --import <filepath>:         # импортирует данные из tsv-файла
+        ${chalk.bgBlue('--version')}                  ${chalk.redBright('# выводит номер версии')}
+        ${chalk.bgBlue('--help')}                     ${chalk.redBright('# печатает этот текст')}
+        ${chalk.bgBlue('--import')} <filepath>        ${chalk.redBright('# импортирует данные из tsv-файла')}
     `);
   }
 }
