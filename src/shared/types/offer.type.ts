@@ -20,6 +20,5 @@ export type Offer = {
   price: number;
   facilities: typeof FACILITIES;
   user: User;
-  comments: number;
   location: Location;
 }

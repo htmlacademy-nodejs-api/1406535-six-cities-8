@@ -18,20 +18,16 @@ export class TSVFileReader implements FileReader {
     }
   }
 
-  private parseCity(cityName: string): City {
+  private getCity(cityName: string): City {
     if (!CITIES_LIST.includes(cityName)) {
-      throw new Error(`Wrong city - (${cityName}).`);
+      throw new Error(`Wrong city - ${cityName}`);
     }
 
     return CITIES.find((city) => city.name === cityName) || defaultCity;
   }
 
-  private parseImages(images: string): string[] {
-    return images.split(';');
-  }
-
-  private parseFacilities(facilities: string): string[] {
-    return facilities.split(';');
+  private parseToArray(mixedItems: string): string[] {
+    return mixedItems.split(';') || [];
   }
 
   private parseUser(...params: string[]): User {
@@ -42,37 +38,57 @@ export class TSVFileReader implements FileReader {
       email,
       avatar,
       password,
-      isPro: Boolean(isPro)
+      isPro: this.parseToBoolean(isPro),
     };
   }
 
   private parseLocation(lat: string, long: string): Location {
     return {
-      latitude: Number.parseInt(lat, 10),
-      longitude: Number.parseInt(long, 10),
+      latitude: this.parseToNumber(lat),
+      longitude: this.parseToNumber(long),
     };
   }
 
+  private parseToBoolean(value: string): boolean {
+    if (value !== 'false' && value !== 'true') {
+      throw new Error(`Isn't boolean value - ${value}`);
+    }
+
+    return value === 'true';
+  }
+
+  private parseToNumber(value: string): number {
+    const clearedValue = value.replaceAll(' ', '').replace(',', '.');
+    const result = clearedValue.includes('.') ?
+      Number.parseFloat(clearedValue) :
+      Number.parseInt(clearedValue, 10);
+
+    if (typeof result !== 'number') {
+      throw new Error(`Isn't numeric value - ${value}`);
+    }
+
+    return result;
+  }
+
   private parseLineToOffer(line: string): Offer {
-    const [title, description, postDate, city, preview, images, isPremium, isFavorite, rating, type, rooms, guests, price, facilities, name, email, avatar, password, isPro, comments, lat, long] = line.split('\t');
+    const [title, description, postDate, city, preview, images, isPremium, isFavorite, rating, type, rooms, guests, price, facilities, name, email, avatar, password, isPro, lat, long] = line.split('\t');
 
     return {
       title,
       description,
       postDate: new Date(postDate),
-      city: this.parseCity(city),
+      city: this.getCity(city),
       preview,
-      images: this.parseImages(images),
-      isPremium: Boolean(isPremium),
-      isFavorite: Boolean(isFavorite),
-      rating: Number.parseInt(rating, 10),
+      images: this.parseToArray(images),
+      isPremium: this.parseToBoolean(isPremium),
+      isFavorite: this.parseToBoolean(isFavorite),
+      rating: this.parseToNumber(rating),
       type: type as OfferType,
-      rooms: Number.parseInt(rooms, 10),
-      guests: Number.parseInt(guests, 10),
-      price: Number.parseInt(price, 10),
-      facilities: this.parseFacilities(facilities),
+      rooms: this.parseToNumber(rooms),
+      guests: this.parseToNumber(guests),
+      price: this.parseToNumber(price),
+      facilities: this.parseToArray(facilities),
       user: this.parseUser(name, email, avatar, password, isPro),
-      comments: Number.parseInt(comments, 10),
       location: this.parseLocation(lat, long),
     };
   }
@@ -88,7 +104,7 @@ export class TSVFileReader implements FileReader {
     this.rawData = readFileSync(this.fileName, 'utf-8');
   }
 
-  public toArray(): Offer[] {
+  public extractOffers(): Offer[] {
     this.validateRawData();
     return this.parseRawDataToOffers();
   }

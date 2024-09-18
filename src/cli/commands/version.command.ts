@@ -43,7 +43,7 @@ export class VersionCommand implements Command {
       console.error(`Failed to read version from ${this.filePath}.`);
 
       if (err instanceof Error) {
-        console.error(err.message);
+        console.error(`Details: ${err.message}`);
       }
     }
   }

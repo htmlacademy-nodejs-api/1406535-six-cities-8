@@ -6,20 +6,19 @@ export class ImportCommand implements Command {
     return '--import';
   }
 
-  public execute(...params: string[]): void {
+  public async execute(...params: string[]): Promise<void> {
     const [fileName] = params;
     const fileReader = new TSVFileReader(fileName.trim());
 
     try {
       fileReader.read();
-      console.log(fileReader.toArray());
-    } catch (err) {
-      if (!(err instanceof Error)) {
-        throw err;
-      }
-
+      console.log(fileReader.extractOffers());
+    } catch (err: unknown) {
       console.error(`Can't import data from file: ${fileName}.`);
-      console.error(`Details: ${err.message}.`);
+
+      if (err instanceof Error) {
+        console.error(`Details: ${err.message}`);
+      }
     }
   }
 }
