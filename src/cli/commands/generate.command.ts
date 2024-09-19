@@ -1,6 +1,8 @@
 import got from 'got';
+import { appendFile } from 'node:fs/promises';
 import { Command } from './command.interface.js';
 import { MockServerData } from '../../shared/types/index.js';
+import { TSVOfferGenerator } from '../../shared/libs/offer-generator/index.js';
 
 export class GenerateCommand implements Command {
   private initialData: MockServerData;
@@ -10,6 +12,18 @@ export class GenerateCommand implements Command {
       this.initialData = await got.get(url).json();
     } catch {
       throw new Error(`Can't load data from ${url}`);
+    }
+  }
+
+  private async write(filePath: string, offerCount: number) {
+    const offerGenerator = new TSVOfferGenerator(this.initialData);
+
+    for (let i = 0; i < offerCount; i++) {
+      await appendFile(
+        filePath,
+        `${offerGenerator.generate()}\n`,
+        'utf-8'
+      );
     }
   }
 
@@ -23,6 +37,8 @@ export class GenerateCommand implements Command {
 
     try {
       await this.load(url);
+      await this.write(filePath, offerCount);
+      console.info(`File ${filePath} was created!`);
     } catch (err: unknown) {
       console.error('Can\'t generate offers.');
 
