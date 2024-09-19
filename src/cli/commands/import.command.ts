@@ -17,13 +17,13 @@ export class ImportCommand implements Command {
 
   public async execute(...params: string[]): Promise<void> {
     const [fileName] = params;
-    const fileReader = new TSVFileReader(fileName.trim());
+    const tsvFileReader = new TSVFileReader(fileName.trim());
 
-    fileReader.on('line', this.onOfferImport);
-    fileReader.on('end', this.onCompleteImport);
+    tsvFileReader.on('line', this.onOfferImport);
+    tsvFileReader.on('end', this.onCompleteImport);
 
     try {
-      fileReader.read();
+      tsvFileReader.read();
     } catch (err: unknown) {
       console.error(`Can't import data from file: ${fileName}.`);
 
