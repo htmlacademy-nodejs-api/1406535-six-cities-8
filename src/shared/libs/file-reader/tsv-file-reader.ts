@@ -23,11 +23,11 @@ export class TSVFileReader implements FileReader {
       throw new Error(`Wrong city - ${cityName}`);
     }
 
-    return CITIES.find((city) => city.name === cityName) || defaultCity;
+    return CITIES.find((city) => city.name === cityName) ?? defaultCity;
   }
 
-  private parseToArray(mixedItems: string): string[] {
-    return mixedItems.split(';') || [];
+  private parseToArray(line: string, separator: string = ';'): string[] {
+    return line.split(separator) ?? [];
   }
 
   private parseUser(...params: string[]): User {
