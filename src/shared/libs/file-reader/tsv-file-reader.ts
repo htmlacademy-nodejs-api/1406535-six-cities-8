@@ -1,21 +1,16 @@
-import { readFileSync } from 'node:fs';
+import EventEmitter from 'node:events';
+import { createReadStream } from 'node:fs';
 import { FileReader } from './file-reader.interface.js';
 import { Offer, OfferType, User, Location, City } from '../../types/index.js';
 import { CITIES, CITIES_LIST } from '../../const.js';
 
-const defaultCity = CITIES[0];
-
-export class TSVFileReader implements FileReader {
-  private rawData = '';
+export class TSVFileReader extends EventEmitter implements FileReader {
+  private CHUNK_SIZE = 16384;
 
   constructor(
     private readonly fileName: string = ''
-  ) {}
-
-  private validateRawData(): void {
-    if (!this.rawData) {
-      throw new Error('File wasn\'t read.');
-    }
+  ) {
+    super();
   }
 
   private getCity(cityName: string): City {
@@ -23,7 +18,7 @@ export class TSVFileReader implements FileReader {
       throw new Error(`Wrong city - ${cityName}`);
     }
 
-    return CITIES.find((city) => city.name === cityName) ?? defaultCity;
+    return CITIES.find((city) => city.name === cityName) as City;
   }
 
   private parseToArray(line: string, separator: string = ';'): string[] {
@@ -93,19 +88,29 @@ export class TSVFileReader implements FileReader {
     };
   }
 
-  private parseRawDataToOffers(): Offer[] {
-    return this.rawData
-      .split('\n')
-      .filter((line) => line.trim().length > 0)
-      .map((line) => this.parseLineToOffer(line));
-  }
+  public async read(): Promise<void> {
+    const readStream = createReadStream(this.fileName, {
+      highWaterMark: this.CHUNK_SIZE,
+      encoding: 'utf-8',
+    });
 
-  public read(): void {
-    this.rawData = readFileSync(this.fileName, 'utf-8');
-  }
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
 
-  public extractOffers(): Offer[] {
-    this.validateRawData();
-    return this.parseRawDataToOffers();
+    for await (const chunk of readStream) {
+      remainingData += chunk.toString();
+
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        const parsedOffer = this.parseLineToOffer(completeRow);
+        this.emit('line', parsedOffer);
+      }
+    }
+
+    this.emit('end', importedRowCount);
   }
 }
