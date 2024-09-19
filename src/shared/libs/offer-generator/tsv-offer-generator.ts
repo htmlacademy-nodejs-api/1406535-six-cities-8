@@ -49,7 +49,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     return this.uniteToString(getSomeArrayItems(this.mockData.facilities, number));
   }
 
-  generate(): string {
+  public generate(): string {
     const title = `Proposal ${getRandomNumber(0, MAX_OFFER_NUMBER)}`;
     const description = getSomeArrayItems(this.mockData.descriptions);
     const createdDate = dayjs()
