@@ -1,0 +1,71 @@
+{
+  "api": {
+    "descriptions": [
+      "Waterfront with extraordinary view",
+      "The Pondhouse - A Magical Place",
+      "Beautiful & luxurious apartment at great location",
+      "House in countryside",
+      "Canal View Prinsengracht",
+      "Nice, cozy, warm big bed apartment"
+    ],
+    "previews": [
+      "apartment-small-03.jpg",
+      "apartment-small-02.jpg",
+      "flat-small-01.jpg",
+      "flat-small-02.jpg",
+      "house-small-01.jpg",
+      "house-small-02.jpg"
+    ],
+    "images": [
+      "apartment-big-01.jpg",
+      "apartment-big-02.jpg",
+      "apartment-big-03.jpg",
+      "apartment-big-04.jpg",
+      "flat-big-01.jpg",
+      "flat-big-02.jpg",
+      "flat-big-03.jpg",
+      "flat-big-04.jpg",
+      "house-big-01.jpg",
+      "house-big-02.jpg",
+      "house-big-03.jpg",
+      "house-big-04.jpg"
+    ],
+    "facilities": [
+      "Breakfast",
+      "Air conditioning",
+      "Laptop friendly workspace",
+      "Baby seat",
+      "Washer",
+      "Towels",
+      "Fridge"
+    ],
+    "users": [
+      "Max Sheldon",
+      "Jonh Brown",
+      "Andy Sacks",
+      "Brigite Laine",
+      "Juliana Murr",
+      "Tom Hanks",
+      "Ruth Laslie",
+      "Amanda Fox"
+    ],
+    "emails": [
+      "max@yahoo.com",
+      "john@google.com",
+      "andy@fb.com",
+      "brigite_laine@yandex.ru",
+      "JM.1234@yahoo.com",
+      "just_tom@yahoo.com",
+      "RL_now-cooking@yahoo.com",
+      "amanda-fox@yahoo.com"
+    ],
+    "avatars": [
+      "avatar-tom.jpg",
+      "avatar-john.jpg",
+      "avatar-max.jpg",
+      "avatar-male.jpg",
+      "avatar-female.jpg",
+      "avatar-amanda.jpg"
+    ]
+  }
+}
