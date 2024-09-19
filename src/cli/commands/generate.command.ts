@@ -15,11 +15,11 @@ export class GenerateCommand implements Command {
     }
   }
 
-  private async write(filePath: string, offerCount: number) {
+  private async write(filePath: string, сount: number) {
     const tsvOfferGenerator = new TSVOfferGenerator(this.initialData);
     const tsvFileWriter = new TSVFileWriter(filePath);
 
-    for (let i = 0; i < offerCount; i++) {
+    for (let i = 0; i < сount; i++) {
       await tsvFileWriter.write(tsvOfferGenerator.generate());
     }
   }
@@ -30,11 +30,10 @@ export class GenerateCommand implements Command {
 
   public async execute(...params: string[]): Promise<void> {
     const [count, filePath, url] = params;
-    const offerCount = Number.parseInt(count, 10);
 
     try {
       await this.load(url);
-      await this.write(filePath, offerCount);
+      await this.write(filePath, Number.parseInt(count, 10));
       console.info(`File ${filePath} was created!`);
     } catch (err: unknown) {
       console.error('Can\'t generate offers.');

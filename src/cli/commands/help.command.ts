@@ -16,7 +16,7 @@ export class HelpCommand implements Command {
         ${chalk.bgBlue('--version')}                              ${chalk.blueBright('# выводит номер версии')}
         ${chalk.bgBlue('--help')}                                 ${chalk.blueBright('# печатает этот текст')}
         ${chalk.bgBlue('--import')} <filepath>                    ${chalk.blueBright('# импортирует данные из tsv-файла')}
-        ${chalk.bgBlue('--generate')} <n> <filepath> <url>        ${chalk.blueBright('# генерирует произвольное количество тестовых данных')}
+        ${chalk.bgBlue('--generate')} <n> <filepath> <url>        ${chalk.blueBright('# генерирует заданное количество тестовых данных')}
     `);
   }
 }
