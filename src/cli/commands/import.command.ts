@@ -1,5 +1,5 @@
 import { Command } from './command.interface.js';
-import { TSVFileReader } from '../../shared/libs/file-reader/index.js';
+import { TSVFileReader } from '../../shared/libs/file-reader/tsv.file-reader.js';
 import { Offer } from '../../shared/types/index.js';
 
 export class ImportCommand implements Command {
