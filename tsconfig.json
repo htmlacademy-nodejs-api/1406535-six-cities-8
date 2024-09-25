@@ -8,6 +8,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
+    "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
@@ -20,6 +21,14 @@
     "sourceMap": true,
     "outDir": "./dist",
     "emitDecoratorMetadata": true,
+    "baseUrl": "./src",
+    "rootDir": ".",
+    "paths": {
+      "@helpers/*": ["shared/helpers/*"],
+      "@shared/*": ["shared/*"],
+      "@types/*": ["shared/types/*"],
+      "@libs/*": ["shared/libs/*"]
+    },
     "types": [
       "node",
     ],

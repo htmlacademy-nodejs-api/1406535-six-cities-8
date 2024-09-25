@@ -1,4 +1,4 @@
-import { City } from './types/index.js';
+import { City } from '@shared/types/index.js';
 
 export const CITIES: City[] = [
   {
