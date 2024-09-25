@@ -48,3 +48,9 @@ export const CITIES: City[] = [
 export const CITIES_LIST = CITIES.map((city) => city.name);
 
 export const FACILITIES = ['Breakfast', 'Air conditioning', 'Laptop friendly workspace', 'Baby seat', 'Washer', 'Towels', 'Fridge'];
+
+export const Component = {
+  RestApp: Symbol.for('RestApp'),
+  Logger: Symbol.for('Logger'),
+  Config: Symbol.for('Config'),
+} as const;
