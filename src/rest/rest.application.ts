@@ -5,7 +5,7 @@ import { RestSchema } from '#libs/config/rest.schema.js';
 import { Component } from '#shared/const.js';
 
 @injectable()
-export class RESTApp {
+export class RESTApplication {
   constructor(
     @inject(Component.Logger) private readonly logger: PinoLogger,
     @inject(Component.Config) private readonly config: Config<RestSchema>,
