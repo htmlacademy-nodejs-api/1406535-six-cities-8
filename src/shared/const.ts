@@ -1,4 +1,3 @@
-import { RESTApplication } from '../rest/rest.application.js';
 import { City } from './types/index.js';
 
 export const CITIES: City[] = [
