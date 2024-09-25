@@ -1,3 +1,4 @@
+import { RESTApplication } from '../rest/rest.application.js';
 import { City } from './types/index.js';
 
 export const CITIES: City[] = [
@@ -50,7 +51,7 @@ export const CITIES_LIST = CITIES.map((city) => city.name);
 export const FACILITIES = ['Breakfast', 'Air conditioning', 'Laptop friendly workspace', 'Baby seat', 'Washer', 'Towels', 'Fridge'];
 
 export const Component = {
-  RestApp: Symbol.for('RestApp'),
+  RestApplication: Symbol.for('RestApplication'),
   Logger: Symbol.for('Logger'),
   Config: Symbol.for('Config'),
 } as const;
