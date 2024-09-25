@@ -1,9 +1,9 @@
 import { config } from 'dotenv';
 import { injectable, inject } from 'inversify';
 import { Config } from './config.interface.js';
-import { PinoLogger } from '../logger/pino.logger.js';
+import { PinoLogger } from '#libs/logger/pino.logger.js';
 import { configRestSchema, RestSchema } from './rest.schema.js';
-import { Component } from '../../const.js';
+import { Component } from '#shared/const.js';
 
 @injectable()
 export class RestConfig implements Config<RestSchema> {

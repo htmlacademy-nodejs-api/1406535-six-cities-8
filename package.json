@@ -48,5 +48,11 @@
     "inversify": "6.0.2",
     "pino": "9.4.0",
     "reflect-metadata": "0.2.2"
+  },
+  "imports": {
+    "#helpers/": "./src/shared/helpers/",
+    "#libs/*": "./src/shared/libs/*",
+    "#types/": "./src/shared/types/",
+    "#shared/*": "./src/shared/*"
   }
 }

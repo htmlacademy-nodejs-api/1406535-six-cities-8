@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { OfferGenerator } from './offer-generator.interface.js';
-import { MockServerData } from '../../types/index.js';
-import { getRandomNumber, getSomeArrayItems } from '../../helpers/common.js';
-import { CITIES_LIST } from '../../const.js';
+import { MockServerData } from '#types/index.js';
+import { getRandomNumber, getSomeArrayItems } from '#helpers/common.js';
+import { CITIES_LIST } from '#shared/const.js';
 
 const Price = {
   MIN: 100,
@@ -33,7 +33,7 @@ const MAX_OFFER_NUMBER = 1000;
 export class TSVOfferGenerator implements OfferGenerator {
   constructor(
     private readonly mockData: MockServerData
-  ) {}
+  ) { }
 
   private uniteToString(items: string | string[], unifier: string = ';'): string {
     return typeof items === 'string' ? items : items.join(unifier);

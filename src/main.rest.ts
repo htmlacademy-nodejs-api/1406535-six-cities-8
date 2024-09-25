@@ -1,11 +1,9 @@
 import 'reflect-metadata';
 import { Container } from 'inversify';
-import { PinoLogger } from './shared/libs/logger/pino.logger.js';
+import { PinoLogger } from '#libs/logger/pino.logger.js';
 import { RESTApp } from './rest/rest.app.js';
-import { Config } from './shared/libs/config/config.interface.js';
-import { RestSchema } from './shared/libs/config/rest.schema.js';
-import { RestConfig } from './shared/libs/config/rest.config.js';
-import { Component } from './shared/const.js';
+import { Config, RestConfig, RestSchema } from '#libs/config/index.js';
+import { Component } from '#shared/const.js';
 
 async function bootstrap() {
   const container = new Container();
