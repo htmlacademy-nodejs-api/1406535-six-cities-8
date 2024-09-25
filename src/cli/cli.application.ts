@@ -3,12 +3,12 @@ import { CommandParser } from './command.parser.js';
 
 type CommandList = Record<string, Command>;
 
-export class CLIApp {
+export class CLIApplication {
   private commands: CommandList = {};
 
   constructor(
     private readonly defaultCommand: string = '--help'
-  ) {}
+  ) { }
 
   public registerCommands(commandItems: Command[]): void {
     commandItems.forEach((command) => {

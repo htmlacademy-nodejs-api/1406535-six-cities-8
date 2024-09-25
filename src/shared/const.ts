@@ -1,4 +1,4 @@
-import { City } from '@shared/types/index.js';
+import { City } from './types/index.js';
 
 export const CITIES: City[] = [
   {
@@ -48,3 +48,9 @@ export const CITIES: City[] = [
 export const CITIES_LIST = CITIES.map((city) => city.name);
 
 export const FACILITIES = ['Breakfast', 'Air conditioning', 'Laptop friendly workspace', 'Baby seat', 'Washer', 'Towels', 'Fridge'];
+
+export const Component = {
+  RestApplication: Symbol.for('RestApplication'),
+  Logger: Symbol.for('Logger'),
+  Config: Symbol.for('Config'),
+} as const;

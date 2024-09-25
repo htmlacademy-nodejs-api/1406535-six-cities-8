@@ -1,8 +1,8 @@
 import EventEmitter from 'node:events';
 import { createReadStream } from 'node:fs';
 import { FileReader } from './file-reader.interface.js';
-import { Offer, OfferType, User, Location, City } from '@shared/types/index.js';
-import { CITIES, CITIES_LIST } from '@shared/const.js';
+import { Offer, OfferType, User, Location, City } from '#types/index.js';
+import { CITIES, CITIES_LIST } from '#shared/const.js';
 
 export class TSVFileReader extends EventEmitter implements FileReader {
   private CHUNK_SIZE = 16384;
