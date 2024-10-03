@@ -1,11 +1,12 @@
 import { resolve } from 'node:path';
-import { Logger, pino, transport } from 'pino';
+import { Logger as PinoInstance, pino, transport } from 'pino';
+import { Logger } from './logger.interface.js';
 import { injectable } from 'inversify';
 import { getCurrentModuleDirectoryPath } from '#helpers/file-system.js';
 
 @injectable()
-export class PinoLogger {
-  private readonly logger: Logger;
+export class PinoLogger implements Logger {
+  private readonly logger: PinoInstance;
 
   constructor() {
     const modulePath = getCurrentModuleDirectoryPath();
@@ -34,7 +35,7 @@ export class PinoLogger {
     this.logger.debug(message, ...args);
   }
 
-  public error(error: Error, message: string, ...args: unknown[]): void {
+  public error(message: string, error: Error, ...args: unknown[]): void {
     this.logger.error(error, message, ...args);
   }
 

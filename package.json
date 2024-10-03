@@ -10,12 +10,13 @@
   "main": "main.js",
   "scripts": {
     "start": "npm run build && node ./dist/main.cli.js",
-    "start:dev": "npm run ts ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
+    "dev": "node --no-warnings=ExperimentalWarning --es-module-specifier-resolution=node --loader ts-node/esm ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
     "build": "npm run clean && npm run compile",
-    "lint": "eslint src/ --ext .ts",
+    "lint": "tsc --noEmit && eslint src/ --ext .ts",
+    "lint:fix": "eslint src/ --ext .ts --fix",
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
-    "ts": "tsc --noEmit && node --no-warnings=ExperimentalWarning --loader ts-node/esm",
+    "ts": "node --no-warnings=ExperimentalWarning --loader ts-node/esm",
     "mock:server": "json-server ./src/mocks/mock-server-data.json --port 3123 --host localhost"
   },
   "devDependencies": {
