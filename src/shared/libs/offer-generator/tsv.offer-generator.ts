@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { OfferGenerator } from './offer-generator.interface.js';
-import { MockServerData } from '#types/index.js';
-import { getRandomNumber, getSomeArrayItems } from '#helpers/common.js';
-import { CITIES_LIST } from '#shared/const.js';
+import { MockServerData } from '../../types/index.js';
+import { getRandomNumber, getSomeArrayItems } from '../../helpers/common.js';
+import { CITIES_LIST } from '../../const.js';
 
 const Price = {
   MIN: 100,

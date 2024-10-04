@@ -9,14 +9,14 @@
   ],
   "main": "main.js",
   "scripts": {
-    "start": "npm run build && node ./dist/main.cli.js",
-    "dev": "node --no-warnings=ExperimentalWarning --es-module-specifier-resolution=node --loader ts-node/esm ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
+    "start": "npm run build && node ./dist/src/main.cli.js",
+    "dev": "npm run ts ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
     "build": "npm run clean && npm run compile",
-    "lint": "tsc --noEmit && eslint src/ --ext .ts",
+    "lint": "eslint src/ --ext .ts",
     "lint:fix": "eslint src/ --ext .ts --fix",
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
-    "ts": "node --no-warnings=ExperimentalWarning --loader ts-node/esm",
+    "ts": "tsc --noEmit && node --no-warnings=ExperimentalWarning --loader ts-node/esm",
     "mock:server": "json-server ./src/mocks/mock-server-data.json --port 3123 --host localhost"
   },
   "devDependencies": {
@@ -49,11 +49,5 @@
     "inversify": "6.0.2",
     "pino": "9.4.0",
     "reflect-metadata": "0.2.2"
-  },
-  "imports": {
-    "#helpers/": "./src/shared/helpers/",
-    "#libs/*": "./src/shared/libs/*",
-    "#types/": "./src/shared/types/",
-    "#shared/*": "./src/shared/*"
   }
 }
