@@ -17,6 +17,8 @@
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist && mkdirp dist/logs",
     "ts": "tsc --noEmit && node --no-warnings=ExperimentalWarning --loader ts-node/esm",
+    "docker:up": "docker compose --env-file ./.env --project-name six-cities up -d",
+    "docker:down": "docker compose --env-file ./.env --project-name six-cities down -v",
     "mock:server": "json-server ./src/mocks/mock-server-data.json --port 3123 --host localhost"
   },
   "devDependencies": {
@@ -48,6 +50,7 @@
     "got": "14.4.2",
     "inversify": "6.0.2",
     "mkdirp": "3.0.1",
+    "mongoose": "8.7.0",
     "pino": "9.4.0",
     "reflect-metadata": "0.2.2"
   }
