@@ -2,5 +2,5 @@ export type User = {
   name: string;
   email: string;
   avatar?: string;
-  isPro: string;
+  isPro: boolean;
 }
