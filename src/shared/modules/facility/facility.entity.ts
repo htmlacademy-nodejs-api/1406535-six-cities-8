@@ -16,4 +16,4 @@ export class FacilityEntity extends defaultClasses.TimeStamps implements Facilit
   public name!: string;
 }
 
-export const CategoryModel = getModelForClass(FacilityEntity);
+export const FacilityModel = getModelForClass(FacilityEntity);
