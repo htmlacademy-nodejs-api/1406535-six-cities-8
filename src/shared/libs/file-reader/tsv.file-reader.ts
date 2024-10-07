@@ -107,7 +107,9 @@ export class TSVFileReader extends EventEmitter implements FileReader {
         lineCount++;
 
         const parsedOffer = this.parseLineToOffer(singleLine);
-        this.emit('line', parsedOffer);
+        await new Promise((resolve) => {
+          this.emit('line', parsedOffer, resolve);
+        });
       }
     }
 
