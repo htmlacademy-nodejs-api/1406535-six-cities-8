@@ -30,12 +30,13 @@ export class TSVFileReader extends EventEmitter implements FileReader {
   }
 
   private parseUser(...params: string[]): User {
-    const [name, email, avatar, isPro] = params;
+    const [name, email, avatar, password, isPro] = params;
 
     return {
       name,
       email,
       avatar,
+      password,
       isPro: this.parseToBoolean(isPro),
     };
   }

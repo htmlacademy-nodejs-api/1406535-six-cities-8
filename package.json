@@ -9,7 +9,7 @@
   ],
   "main": "main.js",
   "scripts": {
-    "start": "npm run build && node ./dist/src/main.rest.js",
+    "start": "npm run build && node ./dist/src/main.cli.js",
     "dev": "npm run ts ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
     "build": "npm run clean && npm run compile",
     "lint": "eslint src/ --ext .ts",
