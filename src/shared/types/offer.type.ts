@@ -1,8 +1,8 @@
 import { City } from './city.type.js';
 import { OfferType } from './offer-type.type.js';
-import { FACILITIES } from '../const.js';
 import { User } from './user.type.js';
 import { Location } from './location.type.js';
+import { Facility } from './facility.type.js';
 
 export type Offer = {
   title: string;
@@ -18,7 +18,7 @@ export type Offer = {
   rooms: number;
   guests: number;
   price: number;
-  facilities: typeof FACILITIES;
+  facilities: Facility[];
   user: User;
   location: Location;
 }

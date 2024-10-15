@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 import { OfferGenerator } from './offer-generator.interface.js';
-import { MockServerData } from '#types/index.js';
-import { getRandomNumber, getSomeArrayItems } from '#helpers/common.js';
-import { CITIES_LIST } from '#shared/const.js';
+import { MockServerData } from '../../types/index.js';
+import { getRandomNumber, getSomeArrayItems } from '../../helpers/common.js';
+import { CITIES_LIST } from '../../const.js';
 
 const Price = {
   MIN: 100,
@@ -40,7 +40,7 @@ export class TSVOfferGenerator implements OfferGenerator {
   }
 
   private getFacilities(): string {
-    const number = getRandomNumber(0, this.mockData.facilities.length);
+    const number = getRandomNumber(0, this.mockData.facilities.length - 1);
 
     if (number === 0) {
       return '';
@@ -73,6 +73,6 @@ export class TSVOfferGenerator implements OfferGenerator {
     const lat = getRandomNumber(Position.LAT_MIN, Position.LAT_MAX, Position.RANK);
     const long = getRandomNumber(Position.LONG_MIN, Position.LONG_MAX, Position.RANK);
 
-    return [title, description, createdDate, city, preview, images, isPremium, isFavorite, rating, type, rooms, guests, price, facilities, user, email, avatar, '*******', isPro, lat, long].join('\t');
+    return [title, description, createdDate, city, preview, images, isPremium, isFavorite, rating, type, rooms, guests, price, facilities, user, email, avatar, '344Djklfjsdk', isPro, lat, long].join('\t');
   }
 }

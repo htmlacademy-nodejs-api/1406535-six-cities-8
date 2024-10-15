@@ -20,7 +20,7 @@
     "strictPropertyInitialization": false,
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "emitDecoratorMetadata": true,
     "types": [
       "node",
