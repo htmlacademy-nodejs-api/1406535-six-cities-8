@@ -10,3 +10,4 @@
 coverage
 *.log
 .env
+src/mocks/mock-data.tsv

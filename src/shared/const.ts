@@ -47,8 +47,6 @@ export const CITIES: City[] = [
 
 export const CITIES_LIST = CITIES.map((city) => city.name);
 
-export const FACILITIES = ['Breakfast', 'Air conditioning', 'Laptop friendly workspace', 'Baby seat', 'Washer', 'Towels', 'Fridge'];
-
 export const Component = {
   RestApplication: Symbol.for('RestApplication'),
   Logger: Symbol.for('Logger'),
@@ -56,8 +54,6 @@ export const Component = {
   DatabaseClient: Symbol.for('DatabaseClient'),
   UserService: Symbol.for('UserService'),
   UserModel: Symbol.for('UserModel'),
-  FacilityService: Symbol.for('FacilityService'),
-  FacilityModel: Symbol.for('FacilityModel'),
   OfferService: Symbol.for('OfferService'),
   OfferModel: Symbol.for('OfferModel'),
 } as const;

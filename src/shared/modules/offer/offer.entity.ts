@@ -1,6 +1,5 @@
 import { defaultClasses, getModelForClass, modelOptions, prop, Ref, Severity } from '@typegoose/typegoose';
 import { City, Location, OfferType } from '../../types/index.js';
-import { FacilityEntity } from '../facility/index.js';
 import { UserEntity } from '../user/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
@@ -57,13 +56,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public price: number;
 
-  @prop({
-    ref: FacilityEntity,
-    required: true,
-    default: [],
-    _id: false
-  })
-  public facilities: Ref<FacilityEntity>[];
+  @prop({ required: true })
+  public facilities: string[];
 
   @prop({
     ref: UserEntity,

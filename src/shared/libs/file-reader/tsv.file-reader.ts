@@ -25,10 +25,6 @@ export class TSVFileReader extends EventEmitter implements FileReader {
     return line.split(separator) ?? [];
   }
 
-  private parseFacilities(line: string): { name: string }[] {
-    return line.split(';').map((name) => ({ name }));
-  }
-
   private parseUser(...params: string[]): User {
     const [name, email, avatar, password, isPro] = params;
 
@@ -86,7 +82,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       rooms: this.parseToNumber(rooms),
       guests: this.parseToNumber(guests),
       price: this.parseToNumber(price),
-      facilities: this.parseFacilities(facilities),
+      facilities: this.parseToArray(facilities),
       user: this.parseUser(name, email, avatar, password, isPro),
       location: this.parseLocation(lat, long),
     };
