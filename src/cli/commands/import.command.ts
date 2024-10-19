@@ -7,8 +7,10 @@ import { Logger } from '../../shared/libs/logger/logger.interface.js';
 import { DefaultOfferService, OfferModel, OfferService } from '../../shared/modules/offer/index.js';
 import { DefaultUserService, UserModel, UserService } from '../../shared/modules/user/index.js';
 import { Offer } from '../../shared/types/index.js';
-import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './command.constant.js';
 import { Command } from './command.interface.js';
+
+const DEFAULT_DB_PORT = '27017';
+const DEFAULT_USER_PASSWORD = '123456';
 
 export class ImportCommand implements Command {
   private userService: UserService;
