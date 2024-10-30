@@ -16,4 +16,6 @@ export class UpdateOfferDto {
   public facilities?: string[];
   public userId?: string;
   public location?: Location;
+  public rating?: number;
+  public commentCount?: number;
 }

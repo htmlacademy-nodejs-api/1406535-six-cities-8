@@ -28,14 +28,14 @@ export class DefaultOfferService implements OfferService {
   public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findById(offerId)
-      .populate('userId')
+      .populate(['userId'])
       .exec();
   }
 
   public async find(): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel
       .find()
-      .populate('userId')
+      .populate(['userId'])
       .exec();
   }
 
@@ -48,7 +48,7 @@ export class DefaultOfferService implements OfferService {
   public async updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, { new: true })
-      .populate('userId')
+      .populate(['userId'])
       .exec();
   }
 
@@ -57,21 +57,12 @@ export class DefaultOfferService implements OfferService {
       .exists({ _id: documentId })) !== null;
   }
 
-  public async incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel
-      .findByIdAndUpdate(offerId, {
-        '$inc': {
-          commentCount: 1,
-        }
-      }).exec();
-  }
-
   public async findPremiumByCity(city: City): Promise<DocumentType<OfferEntity>[] | null> {
     return this.offerModel
       .find({ city })
       .sort({ createdAt: SortType.Down })
       .limit(DEFAULT_PREMIUM_COUNT)
-      .populate('userId')
+      .populate(['userId'])
       .exec();
   }
 }
