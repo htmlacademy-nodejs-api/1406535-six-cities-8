@@ -39,8 +39,6 @@ export class DefaultUserService implements UserService {
   }
 
   public async updateById(userId: string, dto: UpdateUserDto): Promise<DocumentType<UserEntity> | null> {
-    return this.userModel
-      .findByIdAndUpdate(userId, dto, { new: true })
-      .exec();
+    return this.userModel.findByIdAndUpdate(userId, dto, { new: true }).exec();
   }
 }
