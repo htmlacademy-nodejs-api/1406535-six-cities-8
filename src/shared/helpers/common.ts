@@ -1,3 +1,5 @@
+import { ClassConstructor, plainToInstance } from 'class-transformer';
+
 export function getRandomNumber(a: number, b: number, rank: number = 0) {
   return +(Math.random() * (b - a) + a).toFixed(rank);
 }
@@ -17,4 +19,8 @@ export function getSomeArrayItems<T>(items: T[], quantity: number = 1): T | T[] 
   }
 
   return [...set] as T[];
+}
+
+export function fillDTO<T, V>(someDto: ClassConstructor<T>, plainObject: V) {
+  return plainToInstance(someDto, plainObject, { excludeExtraneousValues: true });
 }

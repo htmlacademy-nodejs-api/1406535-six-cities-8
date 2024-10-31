@@ -33,10 +33,11 @@ export class RESTApplication {
 
   private async initServer() {
     const port = this.config.get('PORT');
-    this.server.get('/', (_req, res) => {
-      res.send('Hello');
-    });
     this.server.listen(port);
+  }
+
+  private async initMiddleware() {
+    this.server.use(express.json());
   }
 
   public async init() {
@@ -45,6 +46,10 @@ export class RESTApplication {
     this.logger.info('Init database...');
     await this.initDataBase();
     this.logger.info('Init database completed');
+
+    this.logger.info('Init app-level middleware...');
+    await this.initMiddleware();
+    this.logger.info('App-level middleware initialization completed');
 
     this.logger.info('Try to init server...');
     await this.initServer();
