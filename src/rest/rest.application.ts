@@ -6,6 +6,7 @@ import { Component } from '../shared/const.js';
 import { DatabaseClient } from '../shared/libs/database-client/database-client.interface.js';
 import { getMongoURI } from '../shared/helpers/database.js';
 import express, { Express } from 'express';
+import { ExceptionFilter } from './exception-filter/exception-filter.interface.js';
 
 @injectable()
 export class RESTApplication {
@@ -15,6 +16,7 @@ export class RESTApplication {
     @inject(Component.Logger) private readonly logger: PinoLogger,
     @inject(Component.Config) private readonly config: Config<RestSchema>,
     @inject(Component.DatabaseClient) private readonly databaseClient: DatabaseClient,
+    @inject(Component.ExceptionFilter) private readonly appExceptionFilter: ExceptionFilter,
   ) {
     this.server = express();
   }
@@ -40,6 +42,10 @@ export class RESTApplication {
     this.server.use(express.json());
   }
 
+  private async initExceptionFilters() {
+    this.server.use(this.appExceptionFilter.catch.bind(this.appExceptionFilter));
+  }
+
   public async init() {
     this.logger.info('Application initialization');
 
@@ -50,6 +56,10 @@ export class RESTApplication {
     this.logger.info('Init app-level middleware...');
     await this.initMiddleware();
     this.logger.info('App-level middleware initialization completed');
+
+    this.logger.info('Init exception filters...');
+    await this.initExceptionFilters();
+    this.logger.info('Exception filters initialization compleated');
 
     this.logger.info('Try to init server...');
     await this.initServer();
