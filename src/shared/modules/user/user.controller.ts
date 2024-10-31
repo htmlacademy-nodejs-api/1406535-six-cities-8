@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { Response } from 'express';
+import { NextFunction, Response } from 'express';
 import { Component } from '../../const.js';
 import { Logger } from '../../libs/logger/logger.interface.js';
 import { BaseController } from '../../../rest/controller/base-controller.abstract.js';
@@ -16,7 +16,7 @@ export class UserController extends BaseController {
     this.addRoute({ path: '/register', method: 'post', handler: this.create });
   }
 
-  public create(_req: CreateUserRequest, _res: Response): void {
+  public async create(_req: CreateUserRequest, _res: Response, _next: NextFunction): Promise<void> {
     throw new Error('[UserController] Oops');
   }
 }
