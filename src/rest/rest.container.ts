@@ -6,8 +6,8 @@ import { Config, RestConfig, RestSchema } from '../shared/libs/config/index.js';
 import { DatabaseClient } from '../shared/libs/database-client/database-client.interface.js';
 import { MongoDatabaseClient } from '../shared/libs/database-client/mongo.database-client.js';
 import { RESTApplication } from './rest.application.js';
-import { ExceptionFilter } from './exception-filter/exception-filter.interface.js';
-import { AppExceptionFilter } from './exception-filter/app-exception-filter.js';
+import { ExceptionFilter } from '../shared/libs/rest/exception-filter/exception-filter.interface.js';
+import { AppExceptionFilter } from '../shared/libs/rest/exception-filter/app-exception-filter.js';
 
 export function createRestApplicationContainer() {
   const restApplicationContainer = new Container();

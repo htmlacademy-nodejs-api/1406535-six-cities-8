@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { ExceptionFilter } from './exception-filter.interface.js';
 import { StatusCodes } from 'http-status-codes';
-import { Logger } from '../../shared/libs/logger/logger.interface.js';
-import { Component } from '../../shared/const.js';
+import { Logger } from '../../logger/logger.interface.js';
+import { Component } from '../../../const.js';
 import { inject, injectable } from 'inversify';
 
 @injectable()

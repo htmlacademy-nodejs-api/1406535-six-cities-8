@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { NextFunction, Response } from 'express';
 import { Component } from '../../const.js';
 import { Logger } from '../../libs/logger/logger.interface.js';
-import { BaseController } from '../../../rest/controller/base-controller.abstract.js';
+import { BaseController } from '../../libs/rest/controller/base-controller.abstract.js';
 import { CreateUserRequest } from './create-user-request.type.js';
 
 @injectable()

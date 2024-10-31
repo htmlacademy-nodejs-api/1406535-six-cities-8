@@ -6,8 +6,8 @@ import { Component } from '../shared/const.js';
 import { DatabaseClient } from '../shared/libs/database-client/database-client.interface.js';
 import { getMongoURI } from '../shared/helpers/database.js';
 import express, { Express } from 'express';
-import { ExceptionFilter } from './exception-filter/exception-filter.interface.js';
-import { Controller } from './controller/controller.interface.js';
+import { ExceptionFilter } from '../shared/libs/rest/exception-filter/exception-filter.interface.js';
+import { Controller } from '../shared/libs/rest/controller/controller.interface.js';
 
 @injectable()
 export class RESTApplication {
