@@ -58,3 +58,16 @@ Content-Type: application/json
 DELETE http://localhost:5000/offers/67250664248b2c8e047085d5 HTTP/1.1
 
 ###
+
+## Обновить объявление
+
+PATCH http://localhost:5000/offers/67250663248b2c8e047085cd HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Ночной дозор 3",
+  "description": "Проверка обновления",
+  "price": 1100
+}
+
+###
