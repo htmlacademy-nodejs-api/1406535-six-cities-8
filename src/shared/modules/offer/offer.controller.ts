@@ -11,12 +11,14 @@ import { fillDTO } from '../../helpers/common.js';
 import { OfferRdo } from './rdo/offer.rdo.js';
 import { CreateOfferRequest } from './types/create-offer-request.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
+import { CommentService } from '../comments/index.js';
 
 @injectable()
 export class OfferController extends BaseController {
   constructor(
-    @inject(Component.Logger) logger: Logger,
+    @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.OfferService) private readonly offerService: OfferService,
+    @inject(Component.CommentService) private readonly commentService: CommentService
   ) {
     super(logger);
     this.logger.info('Register routes for OfferController');
@@ -53,6 +55,7 @@ export class OfferController extends BaseController {
   public async delete({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
     const { offerId } = params;
     const offer = await this.offerService.deleteById(offerId);
+    await this.commentService.deleteByOfferId(offerId);
 
     if (!offer) {
       throw new HttpError(

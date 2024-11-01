@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { Component } from '../../const.js';
 import { Logger } from '../../libs/logger/logger.interface.js';
 import { CommentService } from './index.js';
@@ -10,6 +10,7 @@ import { CreateCommentRequest } from './types/create-comment-request.type.js';
 import { BaseController } from '../../libs/rest/controller/base-controller.abstract.js';
 import { fillDTO } from '../../helpers/common.js';
 import { CommentRdo } from './rdo/comment.rdo.js';
+import { ParamOfferId } from '../offer/types/param-offerid.type.js';
 
 @injectable()
 export class CommentController extends BaseController {
@@ -21,6 +22,7 @@ export class CommentController extends BaseController {
     super(logger);
     this.logger.info('Register routes for CommentController');
 
+    this.addRoute({ path: '/:offerId', method: 'get', handler: this.show });
     this.addRoute({ path: '/', method: 'post', handler: this.create });
   }
 
@@ -44,5 +46,18 @@ export class CommentController extends BaseController {
     const totalRating = allComments.reduce((sum, current) => sum + current.rating, 0);
     const rating = parseFloat((totalRating / commentCount).toFixed(1));
     await this.offerService.updateById(body.offerId, { rating, commentCount });
+  }
+
+  public async show({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
+    if (!await this.offerService.exists(params.offerId)) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with id ${params.offerId} not found.`,
+        'OfferController'
+      );
+    }
+
+    const comments = await this.commentService.findByOfferId(params.offerId);
+    this.ok(res, fillDTO(CommentRdo, comments));
   }
 }

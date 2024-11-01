@@ -14,7 +14,4 @@ export class CommentRdo {
   @Expose({ name: 'userId' })
   @Type(() => UserRdo)
   public user: UserRdo;
-
-  @Expose()
-  public offerId: string;
 }
