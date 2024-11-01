@@ -7,6 +7,8 @@ import { Logger } from '../../libs/logger/logger.interface.js';
 import { Component } from '../../const.js';
 import { OfferService } from './index.js';
 import { ParamOfferId } from './types/param-offerid.type.js';
+import { fillDTO } from '../../helpers/common.js';
+import { OfferRdo } from './rdo/offer.rdo.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -28,7 +30,7 @@ export class OfferController extends BaseController {
       throw new HttpError(StatusCodes.NOT_FOUND, `Offer with id ${offerId} not found.`, 'OfferController');
     }
 
-    this.ok(res, offer);
+    this.ok(res, fillDTO(OfferRdo, offer));
   }
 
 }
