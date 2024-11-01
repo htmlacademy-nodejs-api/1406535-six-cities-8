@@ -19,6 +19,7 @@ export class OfferController extends BaseController {
     super(logger);
     this.logger.info('Register routes for OfferController');
 
+    this.addRoute({ path: '/', method: 'get', handler: this.index });
     this.addRoute({ path: '/:offerId', method: 'get', handler: this.show });
   }
 
@@ -33,4 +34,8 @@ export class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, offer));
   }
 
+  public async index(_req: Request, res: Response) {
+    const offers = await this.offerService.find();
+    this.ok(res, fillDTO(OfferRdo, offers));
+  }
 }

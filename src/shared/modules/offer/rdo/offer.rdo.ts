@@ -51,4 +51,10 @@ export class OfferRdo {
 
   @Expose()
   public location: Location;
+
+  @Expose()
+  public commentCount: number;
+
+  @Expose()
+  public rating: number;
 }

@@ -2,3 +2,8 @@
 GET http://localhost:5000/offers/67250664248b2c8e047085ed HTTP/1.1
 
 ###
+
+## Получить список объявлений
+GET http://localhost:5000/offers HTTP/1.1
+
+###
