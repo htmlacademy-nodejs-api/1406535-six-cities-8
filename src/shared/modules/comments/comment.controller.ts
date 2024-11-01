@@ -49,15 +49,17 @@ export class CommentController extends BaseController {
   }
 
   public async show({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
-    if (!await this.offerService.exists(params.offerId)) {
+    const { offerId } = params;
+
+    if (!await this.offerService.exists(offerId)) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
-        `Offer with id ${params.offerId} not found.`,
+        `Offer with id ${offerId} not found.`,
         'OfferController'
       );
     }
 
-    const comments = await this.commentService.findByOfferId(params.offerId);
+    const comments = await this.commentService.findByOfferId(offerId);
     this.ok(res, fillDTO(CommentRdo, comments));
   }
 }
