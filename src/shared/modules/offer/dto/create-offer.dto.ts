@@ -4,9 +4,11 @@ import { City, Location, OfferType } from '../../../types/index.js';
 const IMAGES_TYPES = /\.(gif|jpe?g|png|webp|bmp)$/i;
 
 export class CreateOfferDto {
+  @IsString()
   @Length(10, 100, { message: 'Title must be longer than 10 and shorter than 100 chars' })
   public title: string;
 
+  @IsString()
   @Length(20, 1024, { message: 'Description must be at least 20 and up to 1024 chars' })
   public description: string;
 
@@ -45,6 +47,8 @@ export class CreateOfferDto {
   @Max(100000, { message: 'Maximum price is 100000' })
   public price: number;
 
+  @IsArray()
+  @IsString({ each: true })
   public facilities: string[];
 
   @IsMongoId({ message: 'Field userId must be a valid id' })
