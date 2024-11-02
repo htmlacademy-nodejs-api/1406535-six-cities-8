@@ -15,9 +15,8 @@ POST http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Proposal 999",
-  "description": "New props",
-  "postDate": "2024-10-02T12:50:15.702Z",
+  "title": "Proposal some",
+  "description": "New props jkasldjklasdj kl",
   "city": {
     "name": "London-Paris",
     "location": {
@@ -35,7 +34,6 @@ Content-Type: application/json
     "apartment-big-03.jpg"
   ],
   "isPremium": true,
-  "isFavorite": true,
   "type": "hotel",
   "rooms": 6,
   "guests": 2,
