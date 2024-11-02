@@ -9,7 +9,8 @@ import { CreateCommentRequest } from './types/create-comment-request.type.js';
 import { fillDTO } from '../../helpers/common.js';
 import { CommentRdo } from './rdo/comment.rdo.js';
 import { ParamOfferId } from '../offer/types/param-offerid.type.js';
-import { BaseController, HttpError, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { BaseController, HttpError, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { CreateCommentDto } from './dto/create-comment.dto.js';
 
 @injectable()
 export class CommentController extends BaseController {
@@ -21,7 +22,12 @@ export class CommentController extends BaseController {
     super(logger);
     this.logger.info('Register routes for CommentController');
 
-    this.addRoute({ path: '/', method: 'post', handler: this.create });
+    this.addRoute({
+      path: '/',
+      method: 'post',
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateCommentDto)]
+    });
     this.addRoute({
       path: '/:offerId',
       method: 'get',
