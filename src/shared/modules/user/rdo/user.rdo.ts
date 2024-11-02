@@ -5,5 +5,14 @@ export class UserRdo {
   public name: string;
 
   @Expose()
-  public id: string;
+  public email: string;
+
+  @Expose()
+  public avatar: string;
+
+  @Expose()
+  public isPro: boolean;
+
+  @Expose()
+  public password: string;
 }
