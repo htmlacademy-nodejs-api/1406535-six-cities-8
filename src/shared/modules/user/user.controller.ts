@@ -1,5 +1,5 @@
+import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
-import { Response } from 'express';
 import { Component } from '../../const.js';
 import { Logger } from '../../libs/logger/logger.interface.js';
 import { CreateUserDto, UserService } from './index.js';
@@ -9,7 +9,7 @@ import { fillDTO } from '../../helpers/common.js';
 import { UserRdo } from './rdo/user.rdo.js';
 import { LoginUserRequest } from './types/login-user-request.type.js';
 import { CreateUserRequest } from './types/create-user-request.type.js';
-import { BaseController, HttpError, ValidateDtoMiddleware } from '../../libs/rest/index.js';
+import { BaseController, HttpError, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import { LoginUserDto } from './dto/login-user.dto.js';
 
 @injectable()
@@ -33,6 +33,15 @@ export class UserController extends BaseController {
       method: 'post',
       handler: this.login,
       middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
+    });
+    this.addRoute({
+      path: '/:userId/avatar',
+      method: 'post',
+      handler: this.uploadAvatar,
+      middlewares: [
+        new ValidateObjectIdMiddleware('userId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
+      ]
     });
   }
 
@@ -61,5 +70,9 @@ export class UserController extends BaseController {
     }
 
     throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController');
+  }
+
+  public async uploadAvatar(req: Request, res: Response) {
+    this.created(res, { filepath: req.file?.path });
   }
 }
