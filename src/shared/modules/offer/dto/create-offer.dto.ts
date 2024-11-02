@@ -1,7 +1,10 @@
+import { Length } from 'class-validator';
 import { City, Location, OfferType } from '../../../types/index.js';
 
 export class CreateOfferDto {
+  @Length(10, 100, { message: 'Title must be longer than 10 and shorter than 100 chars' })
   public title: string;
+
   public description: string;
   public postDate: Date;
   public city: City;
