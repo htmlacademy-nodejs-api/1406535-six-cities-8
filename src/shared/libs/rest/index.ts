@@ -7,3 +7,4 @@ export { Controller } from './controller/controller.interface.js';
 export { BaseController } from './controller/base-controller.abstract.js';
 export { Route } from './route.interface.js';
 export { HttpError } from './http-error.js';
+export { DocumentExistsMiddleware } from './middleware/document-exists.middleware.js';
