@@ -4,14 +4,12 @@ import { Component } from '../../const.js';
 import { Logger } from '../../libs/logger/logger.interface.js';
 import { CommentService } from './index.js';
 import { OfferService } from '../offer/index.js';
-import { HttpError } from '../../libs/rest/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import { CreateCommentRequest } from './types/create-comment-request.type.js';
-import { BaseController } from '../../libs/rest/controller/base-controller.abstract.js';
 import { fillDTO } from '../../helpers/common.js';
 import { CommentRdo } from './rdo/comment.rdo.js';
 import { ParamOfferId } from '../offer/types/param-offerid.type.js';
-import { ValidateObjectIdMiddleware } from '../../libs/rest/middleware/validate-objectid.middleware.js';
+import { BaseController, HttpError, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 
 @injectable()
 export class CommentController extends BaseController {
