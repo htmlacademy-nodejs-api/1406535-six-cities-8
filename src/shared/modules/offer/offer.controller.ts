@@ -12,6 +12,7 @@ import { OfferRdo } from './rdo/offer.rdo.js';
 import { CreateOfferRequest } from './types/create-offer-request.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { CommentService } from '../comments/index.js';
+import { ValidateObjectIdMiddleware } from '../../libs/rest/middleware/validate-objectid.middleware.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -25,9 +26,24 @@ export class OfferController extends BaseController {
 
     this.addRoute({ path: '/', method: 'get', handler: this.index });
     this.addRoute({ path: '/', method: 'post', handler: this.create });
-    this.addRoute({ path: '/:offerId', method: 'get', handler: this.show });
-    this.addRoute({ path: '/:offerId', method: 'patch', handler: this.update });
-    this.addRoute({ path: '/:offerId', method: 'delete', handler: this.delete });
+    this.addRoute({
+      path: '/:offerId',
+      method: 'get',
+      handler: this.show,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId',
+      method: 'patch',
+      handler: this.update,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId',
+      method: 'delete',
+      handler: this.delete,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
   }
 
   public async show({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
