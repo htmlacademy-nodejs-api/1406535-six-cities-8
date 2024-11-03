@@ -38,6 +38,11 @@ export class UserController extends BaseController {
       middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
     });
     this.addRoute({
+      path: '/login',
+      method: 'get',
+      handler: this.checkAuthenticate,
+    });
+    this.addRoute({
       path: '/:userId/avatar',
       method: 'post',
       handler: this.uploadAvatar,
@@ -74,5 +79,19 @@ export class UserController extends BaseController {
 
   public async uploadAvatar(req: Request, res: Response) {
     this.created(res, { filepath: req.file?.path });
+  }
+
+  public async checkAuthenticate({ tokenPayload: { email } }: Request, res: Response) {
+    const foundedUser = await this.userService.findByEmail(email);
+
+    if (!foundedUser) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
   }
 }
