@@ -1,3 +1,4 @@
+export { LoginUserDto } from './dto/login-user.dto.js';
 export { UserEntity, UserModel } from './user.entity.js';
 export { CreateUserDto } from './dto/create-user.dto.js';
 export { UserService } from './user-service.interface.js';
