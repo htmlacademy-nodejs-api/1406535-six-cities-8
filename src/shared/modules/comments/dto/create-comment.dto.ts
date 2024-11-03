@@ -13,6 +13,5 @@ export class CreateCommentDto {
   @Max(5)
   public rating: number;
 
-  @IsMongoId({ message: 'Field userId must be a valid id' })
   public userId: string;
 }
