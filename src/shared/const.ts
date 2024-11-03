@@ -68,3 +68,12 @@ export enum SortType {
   Down = -1,
   Up = 1,
 }
+
+export enum OfferType {
+  Apartment = 'apartment',
+  House = 'house',
+  Room = 'room',
+  Hotel = 'hotel',
+}
+
+export const FACILITIES = ['Breakfast', 'Air conditioning', 'Laptop friendly workspace', 'Baby seat', 'Washer', 'Towels', 'Fridge'];
