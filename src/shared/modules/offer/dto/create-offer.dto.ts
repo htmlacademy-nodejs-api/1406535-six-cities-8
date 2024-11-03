@@ -55,7 +55,6 @@ export class CreateOfferDto {
   @IsIn(FACILITIES, { each: true })
   public facilities: string[];
 
-  @IsMongoId({ message: 'Field userId must be a valid id' })
   public userId: string;
 
   @IsObject()

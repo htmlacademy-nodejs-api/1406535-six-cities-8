@@ -67,10 +67,6 @@ export class UpdateOfferDto {
   public facilities?: string[];
 
   @IsOptional()
-  @IsMongoId({ message: 'Field userId must be a valid id' })
-  public userId?: string;
-
-  @IsOptional()
   @IsObject()
   @ValidateNested()
   @Type(() => LocationRdo)
