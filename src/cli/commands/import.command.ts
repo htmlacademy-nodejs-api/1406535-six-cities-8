@@ -49,7 +49,7 @@ export class ImportCommand implements Command {
       price: offer.price,
       facilities: offer.facilities,
       type: offer.type,
-      city: offer.city,
+      city: offer.city.name,
       isPremium: offer.isPremium,
       rooms: offer.rooms,
       guests: offer.guests,

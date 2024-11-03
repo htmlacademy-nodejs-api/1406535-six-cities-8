@@ -17,13 +17,7 @@ Content-Type: application/json
 {
   "title": "Proposal some",
   "description": "New props jkasldjklasdj kl",
-  "city": {
-    "name": "London-Paris",
-    "location": {
-      "latitude": 52.370216,
-      "longitude": 4.895168
-    }
-  },
+  "city": "Paris",
   "preview": "apartment-small-02.jpg",
   "images": [
     "house-big-01.jpg",
