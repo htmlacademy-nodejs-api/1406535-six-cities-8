@@ -9,3 +9,5 @@ export { Route } from './route.interface.js';
 export { HttpError } from './http-error.js';
 export { DocumentExistsMiddleware } from './middleware/document-exists.middleware.js';
 export { UploadFileMiddleware } from './middleware/upload-file.middleware.js';
+export { ParseTokenMiddleware } from './middleware/parse-token.middleware.js';
+export { PrivateRouteMiddleware } from './middleware/private-route.middleware.js';
