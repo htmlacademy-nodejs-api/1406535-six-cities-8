@@ -5,5 +5,8 @@ export class LoggedUserRdo {
   public token: string;
 
   @Expose()
+  public id: string;
+
+  @Expose()
   public email: string;
 }
