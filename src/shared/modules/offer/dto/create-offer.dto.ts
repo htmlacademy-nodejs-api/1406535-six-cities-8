@@ -1,4 +1,4 @@
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsEnum, IsIn, IsInt, IsMongoId, IsObject, IsString, Length, Matches, Max, Min, MinLength, ValidateNested } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsEnum, IsIn, IsInt, IsObject, IsString, Length, Matches, Max, Min, MinLength, ValidateNested } from 'class-validator';
 import { CITIES_LIST, FACILITIES, OfferType } from '../../../const.js';
 import { Type } from 'class-transformer';
 import { LocationRdo } from './location.dto.js';
