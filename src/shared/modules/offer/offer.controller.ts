@@ -9,7 +9,7 @@ import { OfferRdo } from './rdo/offer.rdo.js';
 import { CreateOfferRequest } from './types/create-offer-request.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { CommentService } from '../comments/index.js';
-import { BaseController, DocumentExistsMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { BaseController, DocumentExistsMiddleware, PrivateRouteMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -26,7 +26,10 @@ export class OfferController extends BaseController {
       path: '/',
       method: 'post',
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDto)
+      ]
     });
     this.addRoute({
       path: '/:offerId',
@@ -42,6 +45,7 @@ export class OfferController extends BaseController {
       method: 'patch',
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
@@ -52,6 +56,7 @@ export class OfferController extends BaseController {
       method: 'delete',
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
