@@ -1,5 +1,5 @@
 import { defaultClasses, getModelForClass, modelOptions, prop, Ref, Severity } from '@typegoose/typegoose';
-import { City, Location, OfferType } from '../../types/index.js';
+import { Location, OfferType } from '../../types/index.js';
 import { UserEntity } from '../user/index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
@@ -24,7 +24,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public description: string;
 
   @prop({ required: true })
-  public city: City;
+  public cityName: string;
 
   @prop({ required: true })
   public preview: string;

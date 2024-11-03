@@ -13,9 +13,8 @@ export class CreateOfferDto {
   @Length(20, 1024, { message: 'Description must be at least 20 and up to 1024 chars' })
   public description: string;
 
-  @IsString()
   @IsIn(CITIES_LIST)
-  public city: string;
+  public cityName: string;
 
   @IsString()
   @MinLength(5)

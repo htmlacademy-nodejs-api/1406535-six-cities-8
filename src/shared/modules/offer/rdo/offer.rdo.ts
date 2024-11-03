@@ -1,6 +1,7 @@
-import { Expose, Type } from 'class-transformer';
+import { Expose, Transform, Type } from 'class-transformer';
 import { City, Location, OfferType } from '../../../types/index.js';
 import { UserRdo } from '../../user/rdo/user.rdo.js';
+import { CITIES } from '../../../const.js';
 
 export class OfferRdo {
   @Expose()
@@ -15,7 +16,8 @@ export class OfferRdo {
   @Expose({ name: 'createdAt' })
   public postDate: Date;
 
-  @Expose()
+  @Expose({ name: 'cityName' })
+  @Transform(({ value }) => CITIES.find((item) => item.name === value))
   public city: City;
 
   @Expose()

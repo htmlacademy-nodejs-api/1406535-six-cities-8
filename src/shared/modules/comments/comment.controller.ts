@@ -4,12 +4,11 @@ import { Component } from '../../const.js';
 import { Logger } from '../../libs/logger/logger.interface.js';
 import { CommentService } from './index.js';
 import { OfferService } from '../offer/index.js';
-import { StatusCodes } from 'http-status-codes';
 import { CreateCommentRequest } from './types/create-comment-request.type.js';
 import { fillDTO } from '../../helpers/common.js';
 import { CommentRdo } from './rdo/comment.rdo.js';
 import { ParamOfferId } from '../offer/types/param-offerid.type.js';
-import { BaseController, DocumentExistsMiddleware, HttpError, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { BaseController, DocumentExistsMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import { CreateCommentDto } from './dto/create-comment.dto.js';
 
 @injectable()
@@ -23,10 +22,14 @@ export class CommentController extends BaseController {
     this.logger.info('Register routes for CommentController');
 
     this.addRoute({
-      path: '/',
+      path: '/:offerId',
       method: 'post',
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateCommentDto)]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+        new ValidateDtoMiddleware(CreateCommentDto)
+      ]
     });
     this.addRoute({
       path: '/:offerId',
@@ -43,15 +46,6 @@ export class CommentController extends BaseController {
     { body }: CreateCommentRequest,
     res: Response
   ): Promise<void> {
-
-    if (!await this.offerService.exists(body.offerId)) {
-      throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `Offer with id ${body.offerId} not found.`,
-        'CommentController'
-      );
-    }
-
     const comment = await this.commentService.create(body);
     this.created(res, fillDTO(CommentRdo, comment));
     const allComments = await this.commentService.findByOfferId(body.offerId);

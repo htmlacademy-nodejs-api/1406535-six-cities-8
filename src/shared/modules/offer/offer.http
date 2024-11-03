@@ -1,5 +1,5 @@
 # Получить объявление по идентификатору
-GET http://localhost:5000/offers/67250663248b2c8e047085cd HTTP/1.1
+GET http://localhost:5000/offers/6727a324f1d3aa06dd43dc05 HTTP/1.1
 
 ###
 
@@ -17,7 +17,7 @@ Content-Type: application/json
 {
   "title": "Proposal some",
   "description": "New props jkasldjklasdj kl",
-  "city": "Paris",
+  "cityName": "Paris",
   "preview": "apartment-small-02.jpg",
   "images": [
     "house-big-01.jpg",
@@ -36,7 +36,7 @@ Content-Type: application/json
     "Towels",
     "Fridge"
   ],
-  "userId": "67250663248b2c8e047085ca",
+  "userId": "6727a324f1d3aa06dd43dbfe",
   "location": {
     "latitude": 48.115558,
     "longitude": 5.480178
@@ -47,19 +47,20 @@ Content-Type: application/json
 
 ## Удалить объявление по идентификатору
 
-DELETE http://localhost:5000/offers/67250664248b2c8e047085e4 HTTP/1.1
+DELETE http://localhost:5000/offers/6727a324f1d3aa06dd43dc05 HTTP/1.1
 
 ###
 
 ## Обновить объявление
 
-PATCH http://localhost:5000/offers/672613ab7797e3275df3fe8e HTTP/1.1
+PATCH http://localhost:5000/offers/6727a324f1d3aa06dd43dc05 HTTP/1.1
 Content-Type: application/json
 
 {
   "title": "Ночной дозор 3",
-  "description": "Проверка обновления",
-  "price": 1100
+  "description": "Проверка обновdfgdgffdgfления",
+  "price": 1100,
+  "cityName": "Hamburg"
 }
 
 ###
