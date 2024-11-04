@@ -11,6 +11,7 @@ import { Controller } from '../shared/libs/rest/controller/controller.interface.
 import { ParseTokenMiddleware } from '../shared/libs/rest/middleware/parse-token.middleware.js';
 import { getFullServerPath } from '../shared/helpers/common.js';
 import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from './rest.constant.js';
+import cors from 'cors';
 
 @injectable()
 export class RESTApplication {
@@ -60,6 +61,7 @@ export class RESTApplication {
     this.server.use(STATIC_UPLOAD_ROUTE, express.static(this.config.get('UPLOAD_DIRECTORY')));
     this.server.use(STATIC_FILES_ROUTE, express.static(this.config.get('STATIC_DIRECTORY_PATH')));
     this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+    this.server.use(cors());
   }
 
   private async initExceptionFilters() {
