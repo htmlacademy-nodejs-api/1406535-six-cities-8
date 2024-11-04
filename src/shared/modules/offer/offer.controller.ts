@@ -2,22 +2,24 @@ import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { Logger } from '../../libs/logger/logger.interface.js';
 import { CITIES_LIST, Component } from '../../const.js';
-import { CreateOfferDto, OfferService } from './index.js';
+import { CreateOfferDto, OfferService, UploadImageRdo } from './index.js';
 import { ParamOfferId } from './types/param-offerid.type.js';
 import { fillDTO } from '../../helpers/common.js';
 import { OfferRdo } from './rdo/offer.rdo.js';
 import { CreateOfferRequest } from './types/create-offer-request.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { CommentService } from '../comment/index.js';
-import { BaseController, DocumentExistsMiddleware, PrivateRouteMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { BaseController, DocumentExistsMiddleware, PrivateRouteMiddleware, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import { ParamCityName } from './types/param-cityname.type.js';
+import { Config, RestSchema } from '../../libs/config/index.js';
 
 @injectable()
 export class OfferController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.OfferService) private readonly offerService: OfferService,
-    @inject(Component.CommentService) private readonly commentService: CommentService
+    @inject(Component.CommentService) private readonly commentService: CommentService,
+    @inject(Component.Config) private readonly configService: Config<RestSchema>,
   ) {
     super(logger);
     this.logger.info('Register routes for OfferController');
@@ -35,7 +37,7 @@ export class OfferController extends BaseController {
     this.addRoute({
       path: '/:offerId',
       method: 'get',
-      handler: this.show,
+      handler: this.getById,
       middlewares: [
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
@@ -65,11 +67,21 @@ export class OfferController extends BaseController {
     this.addRoute({
       path: '/premium/:cityName',
       method: 'get',
-      handler: this.showPremium
+      handler: this.getPremium
+    });
+    this.addRoute({
+      path: '/:offerId/preview',
+      method: 'post',
+      handler: this.uploadImage,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateObjectIdMiddleware('offerId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'preview'),
+      ]
     });
   }
 
-  public async show({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
+  public async getById({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
     const { offerId } = params;
     const offer = await this.offerService.findById(offerId);
     this.ok(res, fillDTO(OfferRdo, offer));
@@ -98,7 +110,7 @@ export class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, updatedOffer));
   }
 
-  public async showPremium({ params }: Request<ParamCityName>, res: Response) {
+  public async getPremium({ params }: Request<ParamCityName>, res: Response) {
     const { cityName } = params;
     if (!CITIES_LIST.includes(cityName)) {
       throw new Error('Нет такого города!');
@@ -106,5 +118,12 @@ export class OfferController extends BaseController {
 
     const offers = await this.offerService.findPremiumByCity(cityName);
     this.ok(res, fillDTO(OfferRdo, offers));
+  }
+
+  public async uploadImage({ params, file }: Request<ParamOfferId>, res: Response) {
+    const { offerId } = params;
+    const updateDto = { preview: file?.filename };
+    await this.offerService.updateById(offerId, updateDto);
+    this.created(res, fillDTO(UploadImageRdo, updateDto));
   }
 }

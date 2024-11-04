@@ -35,7 +35,7 @@ export class CommentController extends BaseController {
     this.addRoute({
       path: '/:offerId',
       method: 'get',
-      handler: this.show,
+      handler: this.getById,
       middlewares: [
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
@@ -56,7 +56,7 @@ export class CommentController extends BaseController {
     await this.offerService.updateById(body.offerId, { rating, commentCount });
   }
 
-  public async show({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
+  public async getById({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
     const { offerId } = params;
     const comments = await this.commentService.findByOfferId(offerId);
     this.ok(res, fillDTO(CommentRdo, comments));
