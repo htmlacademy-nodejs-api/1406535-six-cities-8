@@ -9,10 +9,11 @@ import { fillDTO } from '../../helpers/common.js';
 import { UserRdo } from './rdo/user.rdo.js';
 import { LoginUserRequest } from './types/login-user-request.type.js';
 import { CreateUserRequest } from './types/create-user-request.type.js';
-import { BaseController, HttpError, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { BaseController, HttpError, PrivateRouteMiddleware, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import { LoginUserDto } from './dto/login-user.dto.js';
 import { AuthService } from '../auth/index.js';
 import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
+import { OfferService } from '../offer/index.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -21,6 +22,7 @@ export class UserController extends BaseController {
     @inject(Component.UserService) private readonly userService: UserService,
     @inject(Component.Config) private readonly configService: Config<RestSchema>,
     @inject(Component.AuthService) private readonly authService: AuthService,
+    @inject(Component.OfferService) private readonly offerService: OfferService,
   ) {
     super(logger);
     this.logger.info('Register routes for UserController');
@@ -49,6 +51,30 @@ export class UserController extends BaseController {
       middlewares: [
         new ValidateObjectIdMiddleware('userId'),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
+      ]
+    });
+    this.addRoute({
+      path: '/favorites',
+      method: 'get',
+      handler: this.showFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
+    this.addRoute({
+      path: '/favorites',
+      method: 'post',
+      handler: this.addFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
+    this.addRoute({
+      path: '/favorites',
+      method: 'delete',
+      handler: this.deleteFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
       ]
     });
   }
@@ -93,5 +119,17 @@ export class UserController extends BaseController {
     }
 
     this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
+  }
+
+  public async showFavorite({ tokenPayload: { id } }: Request, _res: Response) {
+
+  }
+
+  public async addFavorite({ body, tokenPayload: { id } }: Request, _res: Response) {
+
+  }
+
+  public async deleteFavorite({ body, tokenPayload: { id } }: Request, _res: Response) {
+
   }
 }
