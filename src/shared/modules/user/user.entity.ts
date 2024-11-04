@@ -26,6 +26,9 @@ export class UserEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public isPro: boolean;
 
+  @prop({ required: false, default: [] })
+  public favorites: string[];
+
   @prop({ required: true })
   private password?: string;
 
