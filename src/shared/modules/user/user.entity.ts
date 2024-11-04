@@ -1,6 +1,7 @@
 import { defaultClasses, getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import { User } from '../../types/index.js';
 import { createSHA256 } from '../../helpers/hash.js';
+import { DEFAULT_AVATAR_FILE_NAME } from './user.constant.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface UserEntity extends defaultClasses.Base { }
@@ -20,7 +21,7 @@ export class UserEntity extends defaultClasses.TimeStamps {
   @prop({ unique: true, required: true })
   public email: string;
 
-  @prop({ required: false, default: 'basic-avatar.jpg' })
+  @prop({ required: false, default: DEFAULT_AVATAR_FILE_NAME })
   public avatar?: string;
 
   @prop({ required: true })

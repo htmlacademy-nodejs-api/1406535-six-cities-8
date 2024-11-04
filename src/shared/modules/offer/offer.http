@@ -13,7 +13,7 @@ GET http://localhost:5000/offers HTTP/1.1
 
 POST http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3Mjg5OTY1ZTIyNzVmNDkwMWFiZmIzMiIsImlhdCI6MTczMDcxODIzMCwiZXhwIjoxNzMwODkxMDMwfQ.xQysRewYUOEhCUWWM8Og2KCnn4gy1eZR4hXjGAixir8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3MjhlNmZmYWM5MzJiOWJlOTU1ZTAxOCIsImlhdCI6MTczMDc0MzcyMywiZXhwIjoxNzMwOTE2NTIzfQ.ha6f0ddup9k_F6km-laFAn36AwGvRpbV4b9DmoMfb7g
 
 {
   "title": "Proposal some",
@@ -69,4 +69,20 @@ Content-Type: application/json
 ## Получить список премиальных предложений для города
 
 GET http://localhost:5000/offers/premium/Paris HTTP/1.1
+
+###
+
+## Загрузить изображение для объявления
+
+POST http://localhost:5000/offers/65258514a30fc6ef77c0edf7/preview HTTP/1.1
+Authorization: Bearer "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3MjhlNmZmYWM5MzJiOWJlOTU1ZTAxOCIsImlhdCI6MTczMDc0NTQ2OCwiZXhwIjoxNzMwOTE4MjY4fQ.tTpVbE-z75nKe95Btu0sudHgLODq0W3mIBQlWTq8rAI
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="screen.png"
+Content-Type: image/png
+
+< \Users\Ирина-ПК\Desktop\35x45.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
 ###

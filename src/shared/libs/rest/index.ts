@@ -2,7 +2,7 @@ export { ValidateObjectIdMiddleware } from './middleware/validate-objectid.middl
 export { ValidateDtoMiddleware } from './middleware/validate-dto.middleware.js';
 export { Middleware } from './middleware/middleware.interface.js';
 export { ExceptionFilter } from './exception-filter/exception-filter.interface.js';
-export { AppExceptionFilter } from './exception-filter/app-exception-filter.js';
+export { AppExceptionFilter } from './exception-filter/app.exception-filter.js';
 export { Controller } from './controller/controller.interface.js';
 export { BaseController } from './controller/base-controller.abstract.js';
 export { Route } from './route.interface.js';
@@ -11,3 +11,8 @@ export { DocumentExistsMiddleware } from './middleware/document-exists.middlewar
 export { UploadFileMiddleware } from './middleware/upload-file.middleware.js';
 export { ParseTokenMiddleware } from './middleware/parse-token.middleware.js';
 export { PrivateRouteMiddleware } from './middleware/private-route.middleware.js';
+export { ValidationErrorField } from './types/validation-error-field.type.js';
+export { ApplicationError } from './types/application-error.enum.js';
+export { ValidationExceptionFilter } from './exception-filter/validation.exception-filter.js';
+export { HttpErrorExceptionFilter } from './exception-filter/http-error.exception-filter.js';
+export { PathTransformer } from './transform/path-transformer.js';
