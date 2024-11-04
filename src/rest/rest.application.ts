@@ -10,6 +10,7 @@ import { ExceptionFilter } from '../shared/libs/rest/exception-filter/exception-
 import { Controller } from '../shared/libs/rest/controller/controller.interface.js';
 import { ParseTokenMiddleware } from '../shared/libs/rest/middleware/parse-token.middleware.js';
 import { getFullServerPath } from '../shared/helpers/common.js';
+import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from './rest.constant.js';
 
 @injectable()
 export class RESTApplication {
@@ -56,8 +57,8 @@ export class RESTApplication {
   private async initMiddleware() {
     const authenticateMiddleware = new ParseTokenMiddleware(this.config.get('JWT_SECRET'));
     this.server.use(express.json());
-    this.server.use('/upload', express.static(this.config.get('UPLOAD_DIRECTORY')));
-    this.server.use('/static', express.static(this.config.get('STATIC_DIRECTORY_PATH')));
+    this.server.use(STATIC_UPLOAD_ROUTE, express.static(this.config.get('UPLOAD_DIRECTORY')));
+    this.server.use(STATIC_FILES_ROUTE, express.static(this.config.get('STATIC_DIRECTORY_PATH')));
     this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
   }
 
