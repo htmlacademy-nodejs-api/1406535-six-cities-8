@@ -65,3 +65,8 @@ Content-Type: application/json
 }
 
 ###
+
+## Получить список премиальных предложений для города
+
+GET http://localhost:5000/offers/premium/Paris HTTP/1.1
+###
