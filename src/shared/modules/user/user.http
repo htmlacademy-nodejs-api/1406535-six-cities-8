@@ -29,7 +29,7 @@ Content-Type: application/json
 
 ## Проверить токен пользователя
 GET http://localhost:5000/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3MjdhNWY3M2I4MGNlOGIxYTExNzdhZCIsImlhdCI6MTczMDY2NDk5NywiZXhwIjoxNzMwODM3Nzk3fQ.vlYMafveEnSwZEQRS-nxK1plrGHXTYezfWHIgsuKK9E
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3Mjg5OTY1ZTIyNzVmNDkwMWFiZmIzMiIsImlhdCI6MTczMDcxODIzMCwiZXhwIjoxNzMwODkxMDMwfQ.xQysRewYUOEhCUWWM8Og2KCnn4gy1eZR4hXjGAixir8
 
 ###
 
