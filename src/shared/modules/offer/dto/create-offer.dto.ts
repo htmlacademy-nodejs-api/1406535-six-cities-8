@@ -1,5 +1,7 @@
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsInt, IsMongoId, IsString, Length, Matches, Max, Min, MinLength } from 'class-validator';
-import { City, Location, OfferType } from '../../../types/index.js';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsBoolean, IsEnum, IsIn, IsInt, IsObject, IsString, Length, Matches, Max, Min, MinLength, ValidateNested } from 'class-validator';
+import { CITIES_LIST, FACILITIES, OfferType } from '../../../const.js';
+import { Type } from 'class-transformer';
+import { LocationRdo } from './location.dto.js';
 
 const IMAGES_TYPES = /\.(gif|jpe?g|png|webp|bmp)$/i;
 
@@ -12,7 +14,8 @@ export class CreateOfferDto {
   @Length(20, 1024, { message: 'Description must be at least 20 and up to 1024 chars' })
   public description: string;
 
-  public city: City;
+  @IsIn(CITIES_LIST)
+  public cityName: string;
 
   @IsString()
   @MinLength(5)
@@ -30,6 +33,7 @@ export class CreateOfferDto {
   @IsBoolean()
   public isPremium: boolean;
 
+  @IsEnum(OfferType)
   public type: OfferType;
 
   @IsInt({ message: 'Field rooms must be an integer' })
@@ -48,11 +52,13 @@ export class CreateOfferDto {
   public price: number;
 
   @IsArray()
-  @IsString({ each: true })
+  @IsIn(FACILITIES, { each: true })
   public facilities: string[];
 
-  @IsMongoId({ message: 'Field userId must be a valid id' })
   public userId: string;
 
-  public location: Location;
+  @IsObject()
+  @ValidateNested()
+  @Type(() => LocationRdo)
+  public location: LocationRdo;
 }

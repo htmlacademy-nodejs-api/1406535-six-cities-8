@@ -9,8 +9,11 @@ import { fillDTO } from '../../helpers/common.js';
 import { UserRdo } from './rdo/user.rdo.js';
 import { LoginUserRequest } from './types/login-user-request.type.js';
 import { CreateUserRequest } from './types/create-user-request.type.js';
-import { BaseController, HttpError, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { BaseController, HttpError, PrivateRouteMiddleware, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import { LoginUserDto } from './dto/login-user.dto.js';
+import { AuthService } from '../auth/index.js';
+import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
+import { OfferService } from '../offer/index.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -18,6 +21,8 @@ export class UserController extends BaseController {
     @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.UserService) private readonly userService: UserService,
     @inject(Component.Config) private readonly configService: Config<RestSchema>,
+    @inject(Component.AuthService) private readonly authService: AuthService,
+    @inject(Component.OfferService) private readonly offerService: OfferService,
   ) {
     super(logger);
     this.logger.info('Register routes for UserController');
@@ -35,12 +40,41 @@ export class UserController extends BaseController {
       middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
     });
     this.addRoute({
+      path: '/login',
+      method: 'get',
+      handler: this.checkAuthenticate,
+    });
+    this.addRoute({
       path: '/:userId/avatar',
       method: 'post',
       handler: this.uploadAvatar,
       middlewares: [
         new ValidateObjectIdMiddleware('userId'),
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
+      ]
+    });
+    this.addRoute({
+      path: '/favorites',
+      method: 'get',
+      handler: this.showFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
+    this.addRoute({
+      path: '/favorites',
+      method: 'post',
+      handler: this.addFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
+    this.addRoute({
+      path: '/favorites',
+      method: 'delete',
+      handler: this.deleteFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
       ]
     });
   }
@@ -61,18 +95,41 @@ export class UserController extends BaseController {
 
   public async login(
     { body }: LoginUserRequest,
-    _res: Response,
+    res: Response,
   ): Promise<void> {
-    const existsUser = await this.userService.findByEmail(body.email);
-
-    if (!existsUser) {
-      throw new HttpError(StatusCodes.UNAUTHORIZED, `User with email ${body.email} not found.`, 'UserController');
-    }
-
-    throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController');
+    const user = await this.authService.verify(body);
+    const token = await this.authService.authenticate(user);
+    const responseData = fillDTO(LoggedUserRdo, { email: user.email, token });
+    this.ok(res, responseData);
   }
 
   public async uploadAvatar(req: Request, res: Response) {
     this.created(res, { filepath: req.file?.path });
+  }
+
+  public async checkAuthenticate({ tokenPayload: { email } }: Request, res: Response) {
+    const foundedUser = await this.userService.findByEmail(email);
+
+    if (!foundedUser) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
+  }
+
+  public async showFavorite({ tokenPayload: { id } }: Request, _res: Response) {
+
+  }
+
+  public async addFavorite({ body, tokenPayload: { id } }: Request, _res: Response) {
+
+  }
+
+  public async deleteFavorite({ body, tokenPayload: { id } }: Request, _res: Response) {
+
   }
 }

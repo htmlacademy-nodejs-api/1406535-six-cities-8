@@ -1,5 +1,5 @@
 # Получить объявление по идентификатору
-GET http://localhost:5000/offers/67250663248b2c8e047085cd HTTP/1.1
+GET http://localhost:5000/offers/6727a324f1d3aa06dd43dc05 HTTP/1.1
 
 ###
 
@@ -13,17 +13,12 @@ GET http://localhost:5000/offers HTTP/1.1
 
 POST http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3Mjg5OTY1ZTIyNzVmNDkwMWFiZmIzMiIsImlhdCI6MTczMDcxODIzMCwiZXhwIjoxNzMwODkxMDMwfQ.xQysRewYUOEhCUWWM8Og2KCnn4gy1eZR4hXjGAixir8
 
 {
   "title": "Proposal some",
   "description": "New props jkasldjklasdj kl",
-  "city": {
-    "name": "London-Paris",
-    "location": {
-      "latitude": 52.370216,
-      "longitude": 4.895168
-    }
-  },
+  "cityName": "Paris",
   "preview": "apartment-small-02.jpg",
   "images": [
     "house-big-01.jpg",
@@ -34,7 +29,7 @@ Content-Type: application/json
     "apartment-big-03.jpg"
   ],
   "isPremium": true,
-  "type": "hotel",
+  "type": "apartment",
   "rooms": 6,
   "guests": 2,
   "price": 42553,
@@ -42,7 +37,7 @@ Content-Type: application/json
     "Towels",
     "Fridge"
   ],
-  "userId": "67250663248b2c8e047085ca",
+  "userId": "6727a324f1d3aa06dd43dbfe",
   "location": {
     "latitude": 48.115558,
     "longitude": 5.480178
@@ -53,19 +48,25 @@ Content-Type: application/json
 
 ## Удалить объявление по идентификатору
 
-DELETE http://localhost:5000/offers/67250664248b2c8e047085e4 HTTP/1.1
+DELETE http://localhost:5000/offers/6727b059368c5e499474a3b9 HTTP/1.1
 
 ###
 
 ## Обновить объявление
 
-PATCH http://localhost:5000/offers/672613ab7797e3275df3fe8e HTTP/1.1
+PATCH http://localhost:5000/offers/6727b059368c5e499474a3b9 HTTP/1.1
 Content-Type: application/json
 
 {
   "title": "Ночной дозор 3",
-  "description": "Проверка обновления",
-  "price": 1100
+  "description": "Проверка обновdfgdgffdgfления",
+  "price": 1100,
+  "cityName": "Hamburg"
 }
 
+###
+
+## Получить список премиальных предложений для города
+
+GET http://localhost:5000/offers/premium/Paris HTTP/1.1
 ###

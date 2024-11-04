@@ -23,7 +23,7 @@
     "rootDir": ".",
     "emitDecoratorMetadata": true,
     "types": [
-      "node",
+      "node"
     ],
     "lib": [
       "ESNext"
@@ -35,5 +35,9 @@
   "exclude": [
     "node_modules",
     "**/*.test.ts"
-  ]
+  ],
+  "ts-node": {
+    "esm": true
+  },
+  "files": ["./custom.d.ts"]
 }

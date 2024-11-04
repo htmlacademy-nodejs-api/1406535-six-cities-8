@@ -1,15 +1,16 @@
 import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { Logger } from '../../libs/logger/logger.interface.js';
-import { Component } from '../../const.js';
+import { CITIES_LIST, Component } from '../../const.js';
 import { CreateOfferDto, OfferService } from './index.js';
 import { ParamOfferId } from './types/param-offerid.type.js';
 import { fillDTO } from '../../helpers/common.js';
 import { OfferRdo } from './rdo/offer.rdo.js';
 import { CreateOfferRequest } from './types/create-offer-request.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
-import { CommentService } from '../comments/index.js';
-import { BaseController, DocumentExistsMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { CommentService } from '../comment/index.js';
+import { BaseController, DocumentExistsMiddleware, PrivateRouteMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { ParamCityName } from './types/param-cityname.type.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -26,7 +27,10 @@ export class OfferController extends BaseController {
       path: '/',
       method: 'post',
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDto)
+      ]
     });
     this.addRoute({
       path: '/:offerId',
@@ -42,6 +46,7 @@ export class OfferController extends BaseController {
       method: 'patch',
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
@@ -52,9 +57,15 @@ export class OfferController extends BaseController {
       method: 'delete',
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
+    });
+    this.addRoute({
+      path: '/premium/:cityName',
+      method: 'get',
+      handler: this.showPremium
     });
   }
 
@@ -69,8 +80,8 @@ export class OfferController extends BaseController {
     this.ok(res, fillDTO(OfferRdo, offers));
   }
 
-  public async create({ body }: CreateOfferRequest, res: Response): Promise<void> {
-    const result = await this.offerService.create(body);
+  public async create({ body, tokenPayload }: CreateOfferRequest, res: Response): Promise<void> {
+    const result = await this.offerService.create({ ...body, userId: tokenPayload.id });
     const offer = await this.offerService.findById(result.id);
     this.created(res, fillDTO(OfferRdo, offer));
   }
@@ -85,5 +96,15 @@ export class OfferController extends BaseController {
   public async update({ body, params }: Request<ParamOfferId, unknown, UpdateOfferDto>, res: Response): Promise<void> {
     const updatedOffer = await this.offerService.updateById(params.offerId, body);
     this.ok(res, fillDTO(OfferRdo, updatedOffer));
+  }
+
+  public async showPremium({ params }: Request<ParamCityName>, res: Response) {
+    const { cityName } = params;
+    if (!CITIES_LIST.includes(cityName)) {
+      throw new Error('Нет такого города!');
+    }
+
+    const offers = await this.offerService.findPremiumByCity(cityName);
+    this.ok(res, fillDTO(OfferRdo, offers));
   }
 }

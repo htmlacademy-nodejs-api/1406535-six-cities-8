@@ -14,5 +14,5 @@ export class UserRdo {
   public isPro: boolean;
 
   @Expose()
-  public password: string;
+  public favorites: string[];
 }

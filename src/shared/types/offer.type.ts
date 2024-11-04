@@ -1,7 +1,7 @@
 import { City } from './city.type.js';
-import { OfferType } from './offer-type.type.js';
 import { User } from './user.type.js';
 import { Location } from './location.type.js';
+import { OfferType } from '../const.js';
 
 export type Offer = {
   title: string;

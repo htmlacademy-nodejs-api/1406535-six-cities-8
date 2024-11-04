@@ -20,11 +20,14 @@ export class UserEntity extends defaultClasses.TimeStamps {
   @prop({ unique: true, required: true })
   public email: string;
 
-  @prop({ required: false, default: '' })
+  @prop({ required: false, default: 'basic-avatar.jpg' })
   public avatar?: string;
 
   @prop({ required: true })
   public isPro: boolean;
+
+  @prop({ required: false, default: [] })
+  public favorites: string[];
 
   @prop({ required: true })
   private password?: string;
@@ -44,6 +47,11 @@ export class UserEntity extends defaultClasses.TimeStamps {
 
   public getPassword() {
     return this.password;
+  }
+
+  public verifyPassword(password: string, salt: string) {
+    const hashPassword = createSHA256(password, salt);
+    return hashPassword === this.password;
   }
 }
 
