@@ -5,7 +5,7 @@ import { Logger } from '../../logger/logger.interface.js';
 import { Component } from '../../../const.js';
 import { inject, injectable } from 'inversify';
 import { createErrorObject } from '../../../helpers/common.js';
-import { HttpError } from '../http-error.js';
+import { HttpError } from '../errors/http.error.js';
 
 @injectable()
 export class AppExceptionFilter implements ExceptionFilter {
