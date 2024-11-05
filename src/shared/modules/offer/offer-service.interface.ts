@@ -8,6 +8,7 @@ export interface OfferService extends DocumentExists {
   create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>>;
   find(): Promise<DocumentType<OfferEntity>[] | null>;
   findById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
+  findByIds(offerIds: string[]): Promise<DocumentType<OfferEntity>[] | null>;
   findPremiumByCity(cityName: string): Promise<DocumentType<OfferEntity>[] | null>;
   deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null>;

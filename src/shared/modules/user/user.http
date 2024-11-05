@@ -5,8 +5,8 @@ POST http://localhost:4000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Alice",
-  "email": "toddddr@overlook.net",
+  "name": "Nick",
+  "email": "nick@yahchoo.net",
   "type": "обычный",
   "password": "shining"
 }
@@ -19,7 +19,7 @@ POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "torans@overlook.net",
+  "email": "nick@yahchoo.net",
   "password": "shining"
 }
 
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 ## Проверить токен пользователя
 GET http://localhost:4000/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3Mjg5OTY1ZTIyNzVmNDkwMWFiZmIzMiIsImlhdCI6MTczMDcxODIzMCwiZXhwIjoxNzMwODkxMDMwfQ.xQysRewYUOEhCUWWM8Og2KCnn4gy1eZR4hXjGAixir8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im5pY2tAeWFoY2hvby5uZXQiLCJpZCI6IjY3MmE3NTc4ODljMGUyMDA1ZjYzNzcwNyIsImlhdCI6MTczMDgzNjMyNCwiZXhwIjoxNzMxMDA5MTI0fQ.n2MlePbVKMFid0u4VgWOhvHRz7uIj9AO5tk6nMp0fYE
 
 ###
 
@@ -48,7 +48,7 @@ Content-Type: image/png
 ## Получить избранные предложения
 
 GET http://localhost:4000/users/favorites HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3MjhlNmZmYWM5MzJiOWJlOTU1ZTAxOCIsImlhdCI6MTczMDczMzgyOCwiZXhwIjoxNzMwOTA2NjI4fQ.w28465bzP4HK4g34HbMbRxMmVQStHKi26cHkcK-zxrM
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im5pY2tAeWFoY2hvby5uZXQiLCJpZCI6IjY3MmE3NTc4ODljMGUyMDA1ZjYzNzcwNyIsImlhdCI6MTczMDgzNjMyNCwiZXhwIjoxNzMxMDA5MTI0fQ.n2MlePbVKMFid0u4VgWOhvHRz7uIj9AO5tk6nMp0fYE
 
 ###
 
@@ -56,10 +56,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZ
 
 POST http://localhost:4000/users/favorites HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3MjhlNmZmYWM5MzJiOWJlOTU1ZTAxOCIsImlhdCI6MTczMDczNDcxNSwiZXhwIjoxNzMwOTA3NTE1fQ.UBgUk6doIKD32dmGboRHDtjdZhGZOa2XgSpWL3_Rt-w
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im5pY2tAeWFoY2hvby5uZXQiLCJpZCI6IjY3MmE3NTc4ODljMGUyMDA1ZjYzNzcwNyIsImlhdCI6MTczMDgzNjMyNCwiZXhwIjoxNzMxMDA5MTI0fQ.n2MlePbVKMFid0u4VgWOhvHRz7uIj9AO5tk6nMp0fYE
 
 {
-  "offerId": "6728e5f596c42d693a44ca0c"
+  "offerId": "672a369e42ff61e8805c6bef"
+}
+
+
+###
+## Удалить предложение из избранного
+
+DELETE http://localhost:4000/users/favorites HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im5pY2tAeWFoY2hvby5uZXQiLCJpZCI6IjY3MmE3NTc4ODljMGUyMDA1ZjYzNzcwNyIsImlhdCI6MTczMDgzNjMyNCwiZXhwIjoxNzMxMDA5MTI0fQ.n2MlePbVKMFid0u4VgWOhvHRz7uIj9AO5tk6nMp0fYE
+
+{
+  "offerId": "672a369e42ff61e8805c6bdd"
 }
 
 ###
