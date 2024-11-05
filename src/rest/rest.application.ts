@@ -10,6 +10,7 @@ import { ExceptionFilter } from '../shared/libs/rest/exception-filter/exception-
 import { Controller } from '../shared/libs/rest/controller/controller.interface.js';
 import { ParseTokenMiddleware } from '../shared/libs/rest/middleware/parse-token.middleware.js';
 import { getFullServerPath } from '../shared/helpers/common.js';
+import cors from 'cors';
 
 @injectable()
 export class RESTApplication {
@@ -58,6 +59,7 @@ export class RESTApplication {
     this.server.use(express.json());
     this.server.use('/upload', express.static(this.config.get('UPLOAD_DIRECTORY')));
     this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+    this.server.use(cors());
   }
 
   private async initExceptionFilters() {
