@@ -12,7 +12,6 @@ import { CreateUserRequest } from './types/create-user-request.type.js';
 import { BaseController, HttpError, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import { LoginUserDto } from './dto/login-user.dto.js';
 import { AuthService } from '../auth/index.js';
-import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
 // import { OfferService } from '../offer/index.js';
 
 @injectable()
@@ -99,7 +98,7 @@ export class UserController extends BaseController {
   ): Promise<void> {
     const user = await this.authService.verify(body);
     const token = await this.authService.authenticate(user);
-    const responseData = fillDTO(LoggedUserRdo, user);
+    const responseData = fillDTO(UserRdo, user);
     this.ok(res, Object.assign(responseData, { token }));
   }
 
@@ -118,7 +117,7 @@ export class UserController extends BaseController {
       );
     }
 
-    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
+    this.ok(res, fillDTO(UserRdo, foundedUser));
   }
 
   // public async showFavorite({ tokenPayload: { id } }: Request, _res: Response) {

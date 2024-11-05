@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsString, Length } from 'class-validator';
+import { IsEmail, IsEnum, IsString, Length } from 'class-validator';
 import { UserType } from '../../../const.js';
 
 export class CreateUserDto {
@@ -9,7 +9,7 @@ export class CreateUserDto {
   @IsEmail({}, { message: 'Field must be a valid email address' })
   public email: string;
 
-  @IsBoolean()
+  @IsEnum(UserType)
   public type: UserType;
 
   @IsString()

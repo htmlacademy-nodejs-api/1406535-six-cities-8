@@ -101,7 +101,7 @@ export class OfferController extends BaseController {
   public async showPremium({ params }: Request<ParamCityName>, res: Response) {
     const { cityName } = params;
     if (!CITIES_LIST.includes(cityName)) {
-      throw new Error('Нет такого города!');
+      throw new Error('Wrong city!');
     }
 
     const offers = await this.offerService.findPremiumByCity(cityName);

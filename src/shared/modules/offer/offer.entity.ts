@@ -1,7 +1,7 @@
 import { defaultClasses, getModelForClass, modelOptions, prop, Ref, Severity } from '@typegoose/typegoose';
 import { Location } from '../../types/index.js';
-import { UserEntity } from '../user/index.js';
 import { OfferType } from '../../const.js';
+import { UserEntity } from '../user/user.entity.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base { }

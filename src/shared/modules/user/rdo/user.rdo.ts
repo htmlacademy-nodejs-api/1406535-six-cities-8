@@ -3,6 +3,9 @@ import { UserType } from '../../../const.js';
 
 export class UserRdo {
   @Expose()
+  public id: string;
+
+  @Expose()
   public name: string;
 
   @Expose()
@@ -13,7 +16,4 @@ export class UserRdo {
 
   @Expose()
   public type: UserType;
-
-  @Expose()
-  public favorites: string[];
 }
