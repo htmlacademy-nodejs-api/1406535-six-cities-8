@@ -2,7 +2,7 @@ import EventEmitter from 'node:events';
 import { createReadStream } from 'node:fs';
 import { FileReader } from './file-reader.interface.js';
 import { City, Location, Offer, User } from '../../types/index.js';
-import { CITIES, CITIES_LIST, OfferType } from '../../const.js';
+import { CITIES, CITIES_LIST, OfferType, UserType } from '../../const.js';
 
 export class TSVFileReader extends EventEmitter implements FileReader {
   private CHUNK_SIZE = 16384;
@@ -26,14 +26,14 @@ export class TSVFileReader extends EventEmitter implements FileReader {
   }
 
   private parseUser(...params: string[]): User {
-    const [name, email, avatar, password, isPro] = params;
+    const [name, email, avatar, password, userType] = params;
 
     return {
       name,
       email,
       avatar,
       password,
-      isPro: this.parseToBoolean(isPro),
+      type: userType as UserType,
     };
   }
 
@@ -66,7 +66,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
   }
 
   private parseLineToOffer(line: string): Offer {
-    const [title, description, postDate, city, preview, images, isPremium, isFavorite, rating, type, rooms, guests, price, facilities, name, email, avatar, password, isPro, lat, long] = line.split('\t');
+    const [title, description, postDate, city, preview, images, isPremium, isFavorite, rating, type, rooms, guests, price, facilities, name, email, avatar, password, userType, lat, long] = line.split('\t');
 
     return {
       title,
@@ -83,7 +83,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       guests: this.parseToNumber(guests),
       price: this.parseToNumber(price),
       facilities: this.parseToArray(facilities),
-      user: this.parseUser(name, email, avatar, password, isPro),
+      user: this.parseUser(name, email, avatar, password, userType),
       location: this.parseLocation(lat, long),
     };
   }
