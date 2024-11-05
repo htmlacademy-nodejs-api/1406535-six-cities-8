@@ -1,4 +1,5 @@
 import { IsBoolean, IsEmail, IsString, Length } from 'class-validator';
+import { UserType } from '../../../const.js';
 
 export class CreateUserDto {
   @IsString()
@@ -9,7 +10,7 @@ export class CreateUserDto {
   public email: string;
 
   @IsBoolean()
-  public isPro: boolean;
+  public type: UserType;
 
   @IsString()
   @Length(6, 12, { message: 'Password must be more than 6 and up to 12 chars' })

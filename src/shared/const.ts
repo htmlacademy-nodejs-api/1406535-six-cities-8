@@ -80,4 +80,9 @@ export enum OfferType {
   Hotel = 'hotel',
 }
 
+export enum UserType {
+  Ordinary = 'обычный',
+  Pro = 'pro',
+}
+
 export const FACILITIES = ['Breakfast', 'Air conditioning', 'Laptop friendly workspace', 'Baby seat', 'Washer', 'Towels', 'Fridge'];

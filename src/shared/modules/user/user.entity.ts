@@ -1,6 +1,7 @@
 import { defaultClasses, getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import { User } from '../../types/index.js';
 import { createSHA256 } from '../../helpers/hash.js';
+import { UserType } from '../../const.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface UserEntity extends defaultClasses.Base { }
@@ -24,7 +25,7 @@ export class UserEntity extends defaultClasses.TimeStamps {
   public avatar?: string;
 
   @prop({ required: true })
-  public isPro: boolean;
+  public type: UserType;
 
   @prop({ required: false, default: [] })
   public favorites: string[];
@@ -38,7 +39,7 @@ export class UserEntity extends defaultClasses.TimeStamps {
     this.name = userData.name;
     this.email = userData.email;
     this.avatar = userData.avatar;
-    this.isPro = userData.isPro;
+    this.type = userData.type;
   }
 
   public setPassword(password: string, salt: string) {

@@ -1,4 +1,5 @@
 import { Expose } from 'class-transformer';
+import { UserType } from '../../../const.js';
 
 export class UserRdo {
   @Expose()
@@ -11,7 +12,7 @@ export class UserRdo {
   public avatar: string;
 
   @Expose()
-  public isPro: boolean;
+  public type: UserType;
 
   @Expose()
   public favorites: string[];
