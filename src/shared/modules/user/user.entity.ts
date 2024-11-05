@@ -20,7 +20,7 @@ export class UserEntity extends defaultClasses.TimeStamps {
   @prop({ unique: true, required: true })
   public email: string;
 
-  @prop({ required: false, default: 'basic-avatar.jpg' })
+  @prop({ required: false, default: 'https://i.ytimg.com/vi/ZLXoqhpdrec/hqdefault.jpg' })
   public avatar?: string;
 
   @prop({ required: true })

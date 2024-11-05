@@ -9,6 +9,7 @@ import express, { Express } from 'express';
 import { ExceptionFilter } from '../shared/libs/rest/exception-filter/exception-filter.interface.js';
 import { Controller } from '../shared/libs/rest/controller/controller.interface.js';
 import { ParseTokenMiddleware } from '../shared/libs/rest/middleware/parse-token.middleware.js';
+import { getFullServerPath } from '../shared/helpers/common.js';
 
 @injectable()
 export class RESTApplication {
@@ -87,6 +88,6 @@ export class RESTApplication {
 
     this.logger.info('Try to init server...');
     await this.initServer();
-    this.logger.info(`🚀 Server started on http://localhost:${this.config.get('PORT')}`);
+    this.logger.info(`🚀 Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
   }
 }
