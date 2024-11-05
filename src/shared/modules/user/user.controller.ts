@@ -9,12 +9,12 @@ import { fillDTO } from '../../helpers/common.js';
 import { UserRdo } from './rdo/user.rdo.js';
 import { LoginUserRequest } from './types/login-user-request.type.js';
 import { CreateUserRequest } from './types/create-user-request.type.js';
-import { BaseController, HttpError, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { BaseController, HttpError, PrivateRouteMiddleware, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import { LoginUserDto } from './dto/login-user.dto.js';
 import { AuthService } from '../auth/index.js';
-import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
+import { OfferService } from '../offer/index.js';
+import { FavoriteOfferRdo } from '../offer/rdo/favorite-offer.rdo.js';
 import { UploadUserAvatarRdo } from './rdo/upload-user-avatar.rdo.js';
-// import { OfferService } from '../offer/index.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -23,7 +23,7 @@ export class UserController extends BaseController {
     @inject(Component.UserService) private readonly userService: UserService,
     @inject(Component.Config) private readonly configService: Config<RestSchema>,
     @inject(Component.AuthService) private readonly authService: AuthService,
-    // @inject(Component.OfferService) private readonly offerService: OfferService,
+    @inject(Component.OfferService) private readonly offerService: OfferService,
   ) {
     super(logger);
     this.logger.info('Register routes for UserController');
@@ -34,17 +34,20 @@ export class UserController extends BaseController {
       handler: this.create,
       middlewares: [new ValidateDtoMiddleware(CreateUserDto)]
     });
+
     this.addRoute({
       path: '/login',
       method: 'post',
       handler: this.login,
       middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
     });
+
     this.addRoute({
       path: '/login',
       method: 'get',
       handler: this.checkAuthenticate,
     });
+
     this.addRoute({
       path: '/:userId/avatar',
       method: 'post',
@@ -54,30 +57,33 @@ export class UserController extends BaseController {
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
       ]
     });
-    // this.addRoute({
-    //   path: '/favorites',
-    //   method: 'get',
-    //   handler: this.showFavorite,
-    //   middlewares: [
-    //     new PrivateRouteMiddleware(),
-    //   ]
-    // });
-    // this.addRoute({
-    //   path: '/favorites',
-    //   method: 'post',
-    //   handler: this.addFavorite,
-    //   middlewares: [
-    //     new PrivateRouteMiddleware(),
-    //   ]
-    // });
-    // this.addRoute({
-    //   path: '/favorites',
-    //   method: 'delete',
-    //   handler: this.deleteFavorite,
-    //   middlewares: [
-    //     new PrivateRouteMiddleware(),
-    //   ]
-    // });
+
+    this.addRoute({
+      path: '/favorites',
+      method: 'get',
+      handler: this.getFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
+
+    this.addRoute({
+      path: '/favorites',
+      method: 'post',
+      handler: this.addFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
+
+    this.addRoute({
+      path: '/favorites',
+      method: 'delete',
+      handler: this.deleteFavorite,
+      middlewares: [
+        new PrivateRouteMiddleware(),
+      ]
+    });
   }
 
   public async create(
@@ -100,7 +106,7 @@ export class UserController extends BaseController {
   ): Promise<void> {
     const user = await this.authService.verify(body);
     const token = await this.authService.authenticate(user);
-    const responseData = fillDTO(LoggedUserRdo, user);
+    const responseData = fillDTO(UserRdo, user);
     this.ok(res, Object.assign(responseData, { token }));
   }
 
@@ -122,18 +128,34 @@ export class UserController extends BaseController {
       );
     }
 
-    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
+    this.ok(res, fillDTO(UserRdo, foundedUser));
   }
 
-  // public async showFavorite({ tokenPayload: { id } }: Request, _res: Response) {
+  public async getFavorite({ tokenPayload: { email } }: Request, res: Response) {
+    const user = await this.userService.findByEmail(email);
+    const offers = await this.offerService.findByIds(user?.favorites as string[]);
+    this.ok(res, fillDTO(FavoriteOfferRdo, offers));
+  }
 
-  // }
+  public async addFavorite({ body, tokenPayload: { email } }: Request, res: Response) {
+    const user = await this.userService.findByEmail(email);
+    const favorites = user?.favorites;
+    const offer = await this.offerService.findById(body.offerId);
+    if (!favorites?.includes(offer?.id)) {
+      favorites?.push(offer?.id);
+      this.userService.updateById(user?.id, { favorites });
+    }
+    this.ok(res, fillDTO(FavoriteOfferRdo, offer));
+  }
 
-  // public async addFavorite({ body, tokenPayload: { id } }: Request, _res: Response) {
-
-  // }
-
-  // public async deleteFavorite({ body, tokenPayload: { id } }: Request, _res: Response) {
-
-  // }
+  public async deleteFavorite({ body, tokenPayload: { email } }: Request, res: Response) {
+    const user = await this.userService.findByEmail(email);
+    const favorites = user?.favorites;
+    const offer = await this.offerService.findById(body.offerId);
+    if (favorites?.includes(offer?.id)) {
+      const newFavorites = favorites?.filter((offerId) => offerId !== offer?.id);
+      this.userService.updateById(user?.id, { favorites: newFavorites });
+    }
+    this.noContent(res, null);
+  }
 }

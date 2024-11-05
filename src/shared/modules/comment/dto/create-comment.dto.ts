@@ -13,5 +13,5 @@ export class CreateCommentDto {
   @Max(5)
   public rating: number;
 
-  public userId: string;
+  public userId?: string;
 }

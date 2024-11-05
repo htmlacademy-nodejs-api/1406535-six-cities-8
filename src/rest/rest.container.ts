@@ -6,7 +6,7 @@ import { Config, RestConfig, RestSchema } from '../shared/libs/config/index.js';
 import { DatabaseClient } from '../shared/libs/database-client/database-client.interface.js';
 import { MongoDatabaseClient } from '../shared/libs/database-client/mongo.database-client.js';
 import { RESTApplication } from './rest.application.js';
-import { AppExceptionFilter, ExceptionFilter, HttpErrorExceptionFilter, PathTransformer, ValidationExceptionFilter } from '../shared/libs/rest/index.js';
+import { AppExceptionFilter, ExceptionFilter, ValidationExceptionFilter, HttpErrorExceptionFilter } from '../shared/libs/rest/index.js';
 
 export function createRestApplicationContainer() {
   const restApplicationContainer = new Container();
@@ -18,7 +18,6 @@ export function createRestApplicationContainer() {
   restApplicationContainer.bind<ExceptionFilter>(Component.ExceptionFilter).to(AppExceptionFilter).inSingletonScope();
   restApplicationContainer.bind<ExceptionFilter>(Component.HttpExceptionFilter).to(HttpErrorExceptionFilter).inSingletonScope();
   restApplicationContainer.bind<ExceptionFilter>(Component.ValidationExceptionFilter).to(ValidationExceptionFilter).inSingletonScope();
-  restApplicationContainer.bind<PathTransformer>(Component.PathTransformer).to(PathTransformer).inSingletonScope();
 
   return restApplicationContainer;
 }

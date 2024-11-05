@@ -3,10 +3,10 @@ import { StatusCodes } from 'http-status-codes';
 import { injectable, inject } from 'inversify';
 import { Component } from '../../../const.js';
 import { createErrorObject } from '../../../helpers/common.js';
-import { Logger } from '../../logger/logger.interface.js';
-import { HttpError } from '../http-error.js';
+import { HttpError } from '../errors/http.error.js';
 import { ApplicationError } from '../types/application-error.enum.js';
 import { ExceptionFilter } from './exception-filter.interface.js';
+import { Logger } from '../../logger/logger.interface.js';
 
 @injectable()
 export class HttpErrorExceptionFilter implements ExceptionFilter {

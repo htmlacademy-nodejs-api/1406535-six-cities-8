@@ -1,6 +1,6 @@
 import { ClassConstructor, plainToInstance } from 'class-transformer';
-import { ValidationError } from 'class-validator';
 import { ApplicationError, ValidationErrorField } from '../libs/rest/index.js';
+import { ValidationError } from 'class-validator';
 
 export function getRandomNumber(a: number, b: number, rank: number = 0) {
   return +(Math.random() * (b - a) + a).toFixed(rank);

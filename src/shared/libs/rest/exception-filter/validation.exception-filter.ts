@@ -6,7 +6,7 @@ import { createErrorObject } from '../../../helpers/common.js';
 import { ApplicationError } from '../types/application-error.enum.js';
 import { ExceptionFilter } from './exception-filter.interface.js';
 import { Logger } from '../../logger/logger.interface.js';
-import { ValidationError } from '../validation-error.js';
+import { ValidationError } from '../errors/validation.error.js';
 
 @injectable()
 export class ValidationExceptionFilter implements ExceptionFilter {

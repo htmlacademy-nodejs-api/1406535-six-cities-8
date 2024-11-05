@@ -3,7 +3,7 @@ import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { Middleware } from './middleware.interface.js';
 import { validate } from 'class-validator';
 import { reduceValidationErrors } from '../../../helpers/common.js';
-import { ValidationError } from '../validation-error.js';
+import { ValidationError } from '../errors/validation.error.js';
 
 export class ValidateDtoMiddleware implements Middleware {
   constructor(private dto: ClassConstructor<object>) { }

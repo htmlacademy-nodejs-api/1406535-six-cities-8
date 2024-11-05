@@ -66,7 +66,6 @@ export const Component = {
   AuthExceptionFilter: Symbol.for('AuthExceptionFilter'),
   HttpExceptionFilter: Symbol.for('HttpExceptionFilter'),
   ValidationExceptionFilter: Symbol.for('ValidationExceptionFilter'),
-  PathTransformer: Symbol.for('PathTransformer'),
 } as const;
 
 export enum SortType {
@@ -79,6 +78,11 @@ export enum OfferType {
   House = 'house',
   Room = 'room',
   Hotel = 'hotel',
+}
+
+export enum UserType {
+  Ordinary = 'обычный',
+  Pro = 'pro',
 }
 
 export const FACILITIES = ['Breakfast', 'Air conditioning', 'Laptop friendly workspace', 'Baby seat', 'Washer', 'Towels', 'Fridge'];

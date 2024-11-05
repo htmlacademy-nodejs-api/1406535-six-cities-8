@@ -28,6 +28,10 @@ export class DefaultOfferService implements OfferService {
     return this.offerModel.findById(offerId).populate('userId').exec();
   }
 
+  public async findByIds(offerIds: string[]): Promise<DocumentType<OfferEntity>[] | null> {
+    return this.offerModel.find(({ _id: { $in: offerIds } })).populate('userId').exec();
+  }
+
   public async find(): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel.find().populate('userId').exec();
   }

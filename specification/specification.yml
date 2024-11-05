@@ -43,7 +43,6 @@ paths:
         "409":
           description: Пользователь с таким email уже существует.
 
-
   /users/login:
     post:
       tags:
@@ -64,14 +63,13 @@ paths:
       summary: Загрузка аватара
       description: Загружает изображение аватара пользователя. Изображение аватара должно быть в формате `png` или `jpg`.
 
-  /users/{userId}/favorites:
+  /users/favorites:
     get:
       tags:
         - users
       summary: Возвращает избранные предложения
       description: Возвращает предложения, добавленные в избранное. Доступен только авторизованным пользователям.
 
-  /users/{userId}/favorites/{offerId}:
     post:
       tags:
         - users
@@ -83,6 +81,58 @@ paths:
         - users
       summary: Удаление из избранного
       description: Удаляет предложение из избранного. Доступен только авторизованным пользователям.
+
+  /comments/{offerId}:
+    post:
+      tags:
+        - comments
+      summary: Добавление комментария
+      description: Добавляет комментарий к предложению. Доступен только авторизованным пользователям.
+
+    get:
+      tags:
+        - comments
+      summary: Получение списка комментариев
+      description: Возвращает список комментариев к предложению.
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Получение списка предложений
+      description: Возвращает список предложений по аренде.
+
+    post:
+      tags:
+        - offers
+      summary: Добавление нового предложения
+      description: Добавляет новое предложение. Доступен только авторизованным пользователям.
+
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Получение предложения
+      description: Возвращает детальную информацию о предложении.
+
+    patch:
+      tags:
+        - offers
+      summary: Редактирование предложения
+      description: Редактирование предложения. Доступен только авторизованным пользователям.
+
+    delete:
+      tags:
+        - offers
+      summary: Удаление предложения
+      description: Удаление предложения. Доступен только авторизованным пользователям.
+
+  /offers/premium/{cityName}:
+    get:
+      tags:
+        - offers
+      summary: Получение премиальных предложений
+      description: Возвращает премиальные предложения для города.
 
 
 components:
