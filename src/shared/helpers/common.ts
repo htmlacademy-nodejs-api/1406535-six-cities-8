@@ -41,18 +41,4 @@ export function reduceValidationErrors(errors: ValidationError[]): ValidationErr
 
 export function getFullServerPath(host: string, port: number) {
   return `http://${host}:${port}`;
-  export function createErrorObject(errorType: ApplicationError, error: string, details: ValidationErrorField[] = []) {
-    return { errorType, error, details };
-  }
-
-  export function reduceValidationErrors(errors: ValidationError[]): ValidationErrorField[] {
-    return errors.map(({ property, value, constraints }) => ({
-      property,
-      value,
-      messages: constraints ? Object.values(constraints) : []
-    }));
-  }
-
-  export function getFullServerPath(host: string, port: number) {
-    return `http://${host}:${port}`;
-  }
+}
