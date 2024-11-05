@@ -1,7 +1,7 @@
 # Пользователи
 ## Создать нового пользователя
 
-POST http://localhost:5000/users/register HTTP/1.1
+POST http://localhost:4000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 ## Авторизовать пользователя
 
-POST http://localhost:5000/users/login HTTP/1.1
+POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
@@ -26,14 +26,14 @@ Content-Type: application/json
 ###
 
 ## Проверить токен пользователя
-GET http://localhost:5000/users/login HTTP/1.1
+GET http://localhost:4000/users/login HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3Mjg5OTY1ZTIyNzVmNDkwMWFiZmIzMiIsImlhdCI6MTczMDcxODIzMCwiZXhwIjoxNzMwODkxMDMwfQ.xQysRewYUOEhCUWWM8Og2KCnn4gy1eZR4hXjGAixir8
 
 ###
 
 ## Отправить изображение
 
-POST http://localhost:5000/users/67264eb497ce162e9bb55d78/avatar HTTP/1.1
+POST http://localhost:4000/users/67264eb497ce162e9bb55d78/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -47,14 +47,14 @@ Content-Type: image/png
 
 ## Получить избранные предложения
 
-GET http://localhost:5000/users/favorites HTTP/1.1
+GET http://localhost:4000/users/favorites HTTP/1.1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3MjhlNmZmYWM5MzJiOWJlOTU1ZTAxOCIsImlhdCI6MTczMDczMzgyOCwiZXhwIjoxNzMwOTA2NjI4fQ.w28465bzP4HK4g34HbMbRxMmVQStHKi26cHkcK-zxrM
 
 ###
 
 ## Добавить предложение в избранное
 
-POST http://localhost:5000/users/favorites HTTP/1.1
+POST http://localhost:4000/users/favorites HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJpZCI6IjY3MjhlNmZmYWM5MzJiOWJlOTU1ZTAxOCIsImlhdCI6MTczMDczNDcxNSwiZXhwIjoxNzMwOTA3NTE1fQ.UBgUk6doIKD32dmGboRHDtjdZhGZOa2XgSpWL3_Rt-w
 
