@@ -4,7 +4,9 @@ import { Logger } from '../../logger/logger.interface.js';
 import { Route } from '../route.interface.js';
 import { StatusCodes } from 'http-status-codes';
 import asyncHandler from 'express-async-handler';
+import { injectable } from 'inversify';
 
+@injectable()
 export abstract class BaseController implements Controller {
   private readonly DEFAULT_CONTENT_TYPE = 'application/json';
   private readonly _router: Router;
