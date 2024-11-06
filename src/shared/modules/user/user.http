@@ -1,38 +1,38 @@
 # Пользователи
 ## Создать нового пользователя
-
 POST http://localhost:4000/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Nick",
-  "email": "nick@yahchoo.net",
+  "name": "Anonimus",
+  "email": "123@yandex.ru",
   "type": "обычный",
-  "password": "shining"
+  "password": "findme"
 }
 
 ###
 
-## Авторизовать пользователя
 
+## Авторизовать пользователя
 POST http://localhost:4000/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "nick@yahchoo.net",
-  "password": "shining"
+  "email": "123@yandex.ru",
+  "password": "findme"
 }
 
 ###
 
+
 ## Проверить токен пользователя
 GET http://localhost:4000/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im5pY2tAeWFoY2hvby5uZXQiLCJpZCI6IjY3MmE3NTc4ODljMGUyMDA1ZjYzNzcwNyIsImlhdCI6MTczMDgzNjMyNCwiZXhwIjoxNzMxMDA5MTI0fQ.n2MlePbVKMFid0u4VgWOhvHRz7uIj9AO5tk6nMp0fYE
+Authorization: Bearer ---
 
 ###
 
-## Отправить изображение
 
+## Отправить изображение
 POST http://localhost:4000/users/67264eb497ce162e9bb55d78/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
@@ -45,30 +45,30 @@ Content-Type: image/png
 
 ###
 
-## Получить избранные предложения
 
+## Получить избранные предложения
 GET http://localhost:4000/users/favorites HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im5pY2tAeWFoY2hvby5uZXQiLCJpZCI6IjY3MmE3NTc4ODljMGUyMDA1ZjYzNzcwNyIsImlhdCI6MTczMDgzNjMyNCwiZXhwIjoxNzMxMDA5MTI0fQ.n2MlePbVKMFid0u4VgWOhvHRz7uIj9AO5tk6nMp0fYE
+Authorization: Bearer ---
 
 ###
+
 
 ## Добавить предложение в избранное
-
 POST http://localhost:4000/users/favorites HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im5pY2tAeWFoY2hvby5uZXQiLCJpZCI6IjY3MmE3NTc4ODljMGUyMDA1ZjYzNzcwNyIsImlhdCI6MTczMDgzNjMyNCwiZXhwIjoxNzMxMDA5MTI0fQ.n2MlePbVKMFid0u4VgWOhvHRz7uIj9AO5tk6nMp0fYE
+Authorization: Bearer ---
 
 {
-  "offerId": "672a369e42ff61e8805c6bef"
+  "offerId": "672b193e6b665586c3d25579"
 }
 
-
 ###
-## Удалить предложение из избранного
 
+
+## Удалить предложение из избранного
 DELETE http://localhost:4000/users/favorites HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im5pY2tAeWFoY2hvby5uZXQiLCJpZCI6IjY3MmE3NTc4ODljMGUyMDA1ZjYzNzcwNyIsImlhdCI6MTczMDgzNjMyNCwiZXhwIjoxNzMxMDA5MTI0fQ.n2MlePbVKMFid0u4VgWOhvHRz7uIj9AO5tk6nMp0fYE
+Authorization: Bearer ---
 
 {
   "offerId": "672a369e42ff61e8805c6bdd"
