@@ -110,6 +110,7 @@ npm install
 ```bash
 npm run docker:up
 ```
+**Обратите внимание**, не забывайте использовать `npm run docker:down`, так как работа на основе volumes.
 3. Запустить сервер базы данных
 ```bash
 npm start
