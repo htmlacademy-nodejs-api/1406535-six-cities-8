@@ -51,4 +51,9 @@ export class DefaultOfferService implements OfferService {
   public async findPremiumByCity(cityName: string): Promise<DocumentType<OfferEntity>[] | null> {
     return this.offerModel.find({ cityName, isPremium: true }).sort({ createdAt: SortType.Down }).limit(DEFAULT_PREMIUM_COUNT).populate('userId').exec();
   }
+
+  public async checkOwnership(offerId: string, userId: string): Promise<boolean> {
+    const offer = await this.offerModel.findOne({ _id: offerId });
+    return offer?.userId?.toString() === userId;
+  }
 }

@@ -15,11 +15,11 @@ export class GenerateCommand implements Command {
     }
   }
 
-  private async write(filePath: string, сount: number) {
+  private async write(filePath: string, count: number) {
     const tsvOfferGenerator = new TSVOfferGenerator(this.initialData);
     const tsvFileWriter = new TSVFileWriter(filePath);
 
-    for (let i = 0; i < сount; i++) {
+    for (let i = 0; i < count; i++) {
       await tsvFileWriter.write(tsvOfferGenerator.generate());
     }
   }

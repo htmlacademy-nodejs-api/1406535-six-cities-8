@@ -143,7 +143,7 @@ export class UserController extends BaseController {
     const offer = await this.offerService.findById(body.offerId);
     if (!favorites?.includes(offer?.id)) {
       favorites?.push(offer?.id);
-      this.userService.updateById(user?.id, { favorites });
+      await this.userService.updateById(user?.id, { favorites });
     }
     this.ok(res, fillDTO(FavoriteOfferRdo, offer));
   }
@@ -154,7 +154,7 @@ export class UserController extends BaseController {
     const offer = await this.offerService.findById(body.offerId);
     if (favorites?.includes(offer?.id)) {
       const newFavorites = favorites?.filter((offerId) => offerId !== offer?.id);
-      this.userService.updateById(user?.id, { favorites: newFavorites });
+      await this.userService.updateById(user?.id, { favorites: newFavorites });
     }
     this.noContent(res, null);
   }

@@ -40,13 +40,13 @@ export class TSVOfferGenerator implements OfferGenerator {
   }
 
   private getFacilities(): string {
-    const number = getRandomNumber(0, this.mockData.facilities.length - 1);
+    const quantity = getRandomNumber(0, this.mockData.facilities.length - 1);
 
-    if (number === 0) {
+    if (quantity === 0) {
       return '';
     }
 
-    return this.uniteToString(getSomeArrayItems(this.mockData.facilities, number));
+    return this.uniteToString(getSomeArrayItems(this.mockData.facilities, quantity));
   }
 
   public generate(): string {

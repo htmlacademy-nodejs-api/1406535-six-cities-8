@@ -9,9 +9,11 @@ import { OfferRdo } from './rdo/offer.rdo.js';
 import { CreateOfferRequest } from './types/create-offer-request.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { CommentService } from '../comment/index.js';
-import { BaseController, DocumentExistsMiddleware, PrivateRouteMiddleware, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { BaseController, DocumentExistsMiddleware, HttpError, PrivateRouteMiddleware, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import { ParamCityName } from './types/param-cityname.type.js';
 import { Config, RestSchema } from '../../libs/config/index.js';
+import { StatusCodes } from 'http-status-codes';
+import { UpdateOfferRequest } from './types/update-offer-request.type.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -34,6 +36,7 @@ export class OfferController extends BaseController {
         new ValidateDtoMiddleware(CreateOfferDto)
       ]
     });
+
     this.addRoute({
       path: '/:offerId',
       method: 'get',
@@ -43,6 +46,7 @@ export class OfferController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
     });
+
     this.addRoute({
       path: '/:offerId',
       method: 'patch',
@@ -54,6 +58,7 @@ export class OfferController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
     });
+
     this.addRoute({
       path: '/:offerId',
       method: 'delete',
@@ -64,11 +69,13 @@ export class OfferController extends BaseController {
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
     });
+
     this.addRoute({
       path: '/premium/:cityName',
       method: 'get',
       handler: this.getPremium
     });
+
     this.addRoute({
       path: '/:offerId/preview',
       method: 'post',
@@ -79,6 +86,18 @@ export class OfferController extends BaseController {
         new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'preview'),
       ]
     });
+  }
+
+  private async checkAccess(offerId: string, userId: string): Promise<void> {
+    const isOwner = await this.offerService.checkOwnership(offerId, userId);
+
+    if (!isOwner) {
+      throw new HttpError(
+        StatusCodes.FORBIDDEN,
+        'Forbidden',
+        'OfferController',
+      );
+    }
   }
 
   public async getById({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
@@ -98,22 +117,31 @@ export class OfferController extends BaseController {
     this.created(res, fillDTO(OfferRdo, offer));
   }
 
-  public async delete({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
+  public async delete({ params, tokenPayload }: Request<ParamOfferId>, res: Response): Promise<void> {
     const { offerId } = params;
-    const offer = await this.offerService.deleteById(offerId);
+    await this.checkAccess(offerId, tokenPayload.id);
+    await this.offerService.deleteById(offerId);
     await this.commentService.deleteByOfferId(offerId);
-    this.noContent(res, offer);
+    this.noContent(res, null);
   }
 
-  public async update({ body, params }: Request<ParamOfferId, unknown, UpdateOfferDto>, res: Response): Promise<void> {
-    const updatedOffer = await this.offerService.updateById(params.offerId, body);
-    this.ok(res, fillDTO(OfferRdo, updatedOffer));
+  public async update({ params, body, tokenPayload }: UpdateOfferRequest, res: Response): Promise<void> {
+    const { offerId } = params;
+    await this.checkAccess(offerId, tokenPayload.id);
+    const result = await this.offerService.updateById(offerId, body);
+    const offer = await this.offerService.findById(result?.id);
+    this.ok(res, fillDTO(OfferRdo, offer));
   }
 
   public async getPremium({ params }: Request<ParamCityName>, res: Response) {
     const { cityName } = params;
+
     if (!CITIES_LIST.includes(cityName)) {
-      throw new Error('Wrong city!');
+      throw new HttpError(
+        StatusCodes.BAD_REQUEST,
+        'City in query not included in the list of available cities.',
+        'OfferController'
+      );
     }
 
     const offers = await this.offerService.findPremiumByCity(cityName);
