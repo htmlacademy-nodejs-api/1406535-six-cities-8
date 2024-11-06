@@ -11,6 +11,7 @@ import { Controller } from '../shared/libs/rest/controller/controller.interface.
 import { ParseTokenMiddleware } from '../shared/libs/rest/middleware/parse-token.middleware.js';
 import { getFullServerPath } from '../shared/helpers/common.js';
 import cors from 'cors';
+import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from './rest.constant.js';
 
 @injectable()
 export class RESTApplication {
@@ -25,8 +26,6 @@ export class RESTApplication {
     @inject(Component.OfferController) private readonly offerController: Controller,
     @inject(Component.CommentController) private readonly commentController: Controller,
     @inject(Component.AuthExceptionFilter) private readonly authExceptionFilter: ExceptionFilter,
-    @inject(Component.HttpExceptionFilter) private readonly httpExceptionFilter: ExceptionFilter,
-    @inject(Component.ValidationExceptionFilter) private readonly validationExceptionFilter: ExceptionFilter,
     @inject(Component.HttpExceptionFilter) private readonly httpExceptionFilter: ExceptionFilter,
     @inject(Component.ValidationExceptionFilter) private readonly validationExceptionFilter: ExceptionFilter,
   ) {
@@ -60,16 +59,13 @@ export class RESTApplication {
     const authenticateMiddleware = new ParseTokenMiddleware(this.config.get('JWT_SECRET'));
     this.server.use(express.json());
     this.server.use(STATIC_UPLOAD_ROUTE, express.static(this.config.get('UPLOAD_DIRECTORY')));
-    this.server.use(STATIC_FILES_ROUTE, express.static(this.config.get('STATIC_DIRECTORY_PATH')));
+    this.server.use(STATIC_FILES_ROUTE, express.static(this.config.get('STATIC_DIRECTORY')));
     this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
-    this.server.use(cors());
     this.server.use(cors());
   }
 
   private async initExceptionFilters() {
     this.server.use(this.authExceptionFilter.catch.bind(this.authExceptionFilter));
-    this.server.use(this.validationExceptionFilter.catch.bind(this.validationExceptionFilter));
-    this.server.use(this.httpExceptionFilter.catch.bind(this.httpExceptionFilter));
     this.server.use(this.validationExceptionFilter.catch.bind(this.validationExceptionFilter));
     this.server.use(this.httpExceptionFilter.catch.bind(this.httpExceptionFilter));
     this.server.use(this.appExceptionFilter.catch.bind(this.appExceptionFilter));
@@ -96,7 +92,6 @@ export class RESTApplication {
 
     this.logger.info('Try to init server...');
     await this.initServer();
-    this.logger.info(`🚀 Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
     this.logger.info(`🚀 Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
   }
 }
