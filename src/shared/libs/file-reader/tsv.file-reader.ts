@@ -58,10 +58,6 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       Number.parseFloat(clearedValue) :
       Number.parseInt(clearedValue, 10);
 
-    if (typeof result !== 'number') {
-      throw new Error(`Isn't numeric value - ${value}`);
-    }
-
     return result;
   }
 
@@ -100,8 +96,9 @@ export class TSVFileReader extends EventEmitter implements FileReader {
 
     for await (const chunk of readStream) {
       remainingData += chunk.toString();
+      nextLinePosition = remainingData.indexOf('\n');
 
-      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+      while (nextLinePosition >= 0) {
         const singleLine = remainingData.slice(0, nextLinePosition + 1);
         remainingData = remainingData.slice(++nextLinePosition);
         lineCount++;
@@ -110,6 +107,8 @@ export class TSVFileReader extends EventEmitter implements FileReader {
         await new Promise((resolve) => {
           this.emit('line', parsedOffer, resolve);
         });
+
+        nextLinePosition = remainingData.indexOf('\n');
       }
     }
 
